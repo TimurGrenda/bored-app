@@ -1,0 +1,30 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [/*remove"react", */"prettier"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb", "prettier"],
+  "rules": {
+    "prettier/prettier": 2,
+    "import/prefer-default-export": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-curly-brace-presence": [2, {
+      "props": "always",
+      "children": "never"
+    }],
+    "react/sort-comp": [2, {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "instance-methods",
+        "instance-variables",
+        "everything-else",
+        "render"
+      ]
+    }],
+    "arrow-parens": [2, "always"],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+  }
+}
