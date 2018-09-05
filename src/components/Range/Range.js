@@ -14,6 +14,13 @@ class Range extends Component {
   };
   /* eslint-enable react/destructuring-assignment */
 
+  componentDidMount() {
+    const { onChange } = this.props;
+    const { handlesPercent } = this.state;
+
+    onChange(handlesPercent);
+  }
+
   createSliderEventHandler = (idx, moveEvent, endEvent) => {
     const handleMoveEvent = (e) => this.updateHandlePosition(idx, e);
 
@@ -48,31 +55,34 @@ class Range extends Component {
     });
   }, 50);
 
-  handle0TouchStart = this.createSliderEventHandler(0, 'touchmove', 'touchend');
-
-  handle0MouseDown = this.createSliderEventHandler(0, 'mousemove', 'mouseup');
-
-  handle1TouchStart = this.createSliderEventHandler(1, 'touchmove', 'touchend');
-
-  handle1MouseDown = this.createSliderEventHandler(1, 'mousemove', 'mouseup');
-
   sliderRef = React.createRef();
+
+  /* eslint-disable react/destructuring-assignment */
+  handles = [...Array(this.props.handlesCount)].map((_, i) => {
+    const handleMouseDown = this.createSliderEventHandler(i, 'mousemove', 'mouseup');
+    const handleTouchStart = this.createSliderEventHandler(i, 'touchmove', 'touchend');
+
+    return {
+      handleMouseDown,
+      handleTouchStart,
+    };
+  });
+  /* eslint-enable react/destructuring-assignment */
 
   render() {
     const { handlesPositions } = this.state;
+
     return (
       <SliderWrap>
         <Slider innerRef={this.sliderRef}>
-          <Handle
-            style={{ left: `${handlesPositions[0]}px` }}
-            onMouseDown={this.handle0MouseDown}
-            onTouchStart={this.handle0TouchStart}
-          />
-          <Handle
-            style={{ left: `${handlesPositions[1]}px` }}
-            onMouseDown={this.handle1MouseDown}
-            onTouchStart={this.handle1TouchStart}
-          />
+          {this.handles.map((cur, i) => (
+            <Handle
+              key={Math.random()}
+              style={{ left: `${handlesPositions[i]}px` }}
+              onMouseDown={cur.handleMouseDown}
+              onTouchStart={cur.handleTouchStart}
+            />
+          ))}
         </Slider>
       </SliderWrap>
     );
@@ -81,11 +91,13 @@ class Range extends Component {
 
 Range.propTypes = {
   onChange: PropTypes.func,
+  handlesCount: PropTypes.number,
   initialValues: PropTypes.arrayOf(PropTypes.number),
 };
 
 Range.defaultProps = {
   onChange: () => {},
-  initialValues: [0, 100],
+  handlesCount: 1,
+  initialValues: [50],
 };
 export default Range;

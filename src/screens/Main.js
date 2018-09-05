@@ -10,15 +10,13 @@ import DigitPicker from '../components/DigitPicker';
 
 class Main extends Component {
   state = {
-    from: 20,
-    to: 80,
+    rangeHandles: [],
     participants: null,
   };
 
   handleRangeChange = (values) => {
     this.setState({
-      from: Math.min(...values),
-      to: Math.max(...values),
+      rangeHandles: values,
     });
   };
 
@@ -29,7 +27,7 @@ class Main extends Component {
   };
 
   render() {
-    const { from, to, participants } = this.state;
+    const { rangeHandles, participants } = this.state;
     const { goToActivityPage } = this.props;
     return (
       <React.Fragment>
@@ -38,19 +36,13 @@ class Main extends Component {
           <Button type={'button'} onClick={goToActivityPage}>
             Get suggestions
           </Button>
-          <Range initialValues={[20, 80]} onChange={this.handleRangeChange} />
-          <Paragraph>
-            <Text>
-              from:
-              {from.toFixed(2)}
-            </Text>
-          </Paragraph>
-          <Paragraph>
-            <Text>
-              to:
-              {to.toFixed(2)}
-            </Text>
-          </Paragraph>
+          <Range handlesCount={5} initialValues={[0, 20, 50, 80, 100]} onChange={this.handleRangeChange} />
+          {rangeHandles.map((cur, i) => (
+            <Paragraph>
+              <Text bold>{i}:</Text>
+              <Text>{cur.toFixed(2)}</Text>
+            </Paragraph>
+          ))}
           <DigitPicker range={[1, 8]} onChange={this.handleDigitPickerChange} />
           <Paragraph>
             <Text>
