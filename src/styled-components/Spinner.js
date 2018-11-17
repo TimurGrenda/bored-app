@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 
 const getSize = (size) => {
@@ -15,17 +15,16 @@ const getSize = (size) => {
 };
 
 /* css from https://github.com/ConnorAtherton/loaders.css/blob/master/loaders.css */
-const Spinner = styled.div`
-  @keyframes ball-scale {
-    0% {
-      transform: scale(0);
-    }
-    100% {
-      transform: scale(1);
-      opacity: 0;
-    }
+const ballScale = keyframes`
+  0% {
+    transform: scale(0);
   }
-
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+`;
+const Spinner = styled.div`
   background-color: ${({ theme }) => theme.primaryColor};
   width: ${({ size }) => getSize(size)};
   height: ${({ size }) => getSize(size)};
@@ -33,7 +32,7 @@ const Spinner = styled.div`
   margin: 2px;
   animation-fill-mode: both;
   display: inline-block;
-  animation: ball-scale 1s 0s ease-in-out infinite;
+  animation: ${ballScale} 1s 0s ease-in-out infinite;
 `;
 
 Spinner.propTypes = {
