@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import OutsideClickHandler from 'react-outside-click-handler';
 import Option from './styled-components/Option';
 import OptionsList from './styled-components/OptionsList';
 import Header from './styled-components/Header';
@@ -18,14 +19,23 @@ class Select extends Component {
     });
   };
 
+  handleOutsideClick = () => {
+    this.setState({ isOpen: false });
+  };
+
+  toggleOptionsList = () => {
+    this.setState((prev) => ({ isOpen: !prev.isOpen }));
+  };
+
   render() {
     const { isOpen, selectedOptionValue } = this.state;
     const { options } = this.props;
     return (
-      <div>
-        <Header
-          onClick={() => this.setState((prev) => ({ isOpen: !prev.isOpen }))}
-        >
+      <OutsideClickHandler
+        disabled={!isOpen}
+        onOutsideClick={this.handleOutsideClick}
+      >
+        <Header onClick={this.toggleOptionsList}>
           <HeaderTitle>
             {selectedOptionValue !== null
               ? options.find((option) => option.value === selectedOptionValue)
@@ -47,7 +57,7 @@ class Select extends Component {
             </OptionsList>
           )}
         </div>
-      </div>
+      </OutsideClickHandler>
     );
   }
 }
