@@ -33,7 +33,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['eslint-loader'],
+        use: {
+          loader: 'eslint-loader',
+          options: {
+            emitWarning: true,
+          },
+        },
       },
     ],
   },
