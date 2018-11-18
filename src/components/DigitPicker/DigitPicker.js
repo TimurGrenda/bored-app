@@ -30,7 +30,11 @@ class DigitPicker extends Component {
     const { selected } = this.state;
 
     const cells = createArrayFromRange(...range).map((i) => (
-      <Cell key={i} selected={selected === i} onClick={() => this.handleCellClick(i)}>
+      <Cell
+        key={i}
+        selected={selected === i}
+        onClick={() => this.handleCellClick(i)}
+      >
         {i}
       </Cell>
     ));

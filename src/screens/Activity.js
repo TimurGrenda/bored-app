@@ -24,7 +24,9 @@ class Activity extends Component {
     * */
     fetch('https://www.boredapi.com/api/activity/')
       .then((res) => res.json())
-      .then((res) => this.setState({ data: res, dataState: dataStates.loaded }));
+      .then((res) =>
+        this.setState({ data: res, dataState: dataStates.loaded })
+      );
   }
 
   render() {

@@ -9,9 +9,12 @@ const Cell = styled.div`
   margin-right: 2px;
   width: 30px;
   height: 30px;
-  background-color: ${({ theme, selected }) => (selected ? theme.primaryColor : theme.secondaryColor)};
-  color: ${({ theme, selected }) => (selected ? theme.secondaryColor : theme.primaryColor)};
-  border-color: ${({ theme, selected }) => (selected ? 'transparent' : theme.primaryColor)};
+  background-color: ${({ theme, selected }) =>
+    selected ? theme.primaryColor : theme.secondaryColor};
+  color: ${({ theme, selected }) =>
+    selected ? theme.secondaryColor : theme.primaryColor};
+  border-color: ${({ theme, selected }) =>
+    selected ? 'transparent' : theme.primaryColor};
   border-width: 1px;
   border-style: solid;
 `;

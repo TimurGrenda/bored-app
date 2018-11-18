@@ -36,7 +36,11 @@ class Main extends Component {
           <Button type={'button'} onClick={goToActivityPage}>
             Get suggestions
           </Button>
-          <Range handlesCount={5} initialValues={[0, 20, 50, 80, 100]} onChange={this.handleRangeChange} />
+          <Range
+            handlesCount={5}
+            initialValues={[0, 20, 50, 80, 100]}
+            onChange={this.handleRangeChange}
+          />
           {rangeHandles.map((cur, i) => (
             <Paragraph>
               <Text bold>{i}:</Text>

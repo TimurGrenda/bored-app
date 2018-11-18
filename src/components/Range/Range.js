@@ -4,12 +4,18 @@ import throttle from 'lodash.throttle';
 import Handle from './styled-components/Handle';
 import Slider from './styled-components/Slider';
 import SliderWrap from './styled-components/SliderWrap';
-import { calculateHandlePosition, calculatePercent, calculatePosition } from './utils';
+import {
+  calculateHandlePosition,
+  calculatePercent,
+  calculatePosition,
+} from './utils';
 
 class Range extends Component {
   /* eslint-disable react/destructuring-assignment */
   state = {
-    handlesPositions: this.props.initialValues.map((cur) => calculatePosition(undefined, cur)),
+    handlesPositions: this.props.initialValues.map((cur) =>
+      calculatePosition(undefined, cur)
+    ),
     handlesPercent: this.props.initialValues,
   };
   /* eslint-enable react/destructuring-assignment */
@@ -42,11 +48,18 @@ class Range extends Component {
     const { handlesPositions, handlesPercent } = this.state;
     const { onChange } = this.props;
 
-    const newHandlePosition = calculateHandlePosition(this.sliderRef.current, e);
-    const newHandlesPositions = handlesPositions.map((cur, i) => (i === idx ? newHandlePosition : cur));
+    const newHandlePosition = calculateHandlePosition(
+      this.sliderRef.current,
+      e
+    );
+    const newHandlesPositions = handlesPositions.map(
+      (cur, i) => (i === idx ? newHandlePosition : cur)
+    );
 
     const newHandlePercent = calculatePercent(undefined, newHandlePosition);
-    const newHandlesPercents = handlesPercent.map((cur, i) => (i === idx ? newHandlePercent : cur));
+    const newHandlesPercents = handlesPercent.map(
+      (cur, i) => (i === idx ? newHandlePercent : cur)
+    );
 
     onChange(newHandlesPercents);
     this.setState({
@@ -59,8 +72,16 @@ class Range extends Component {
 
   /* eslint-disable react/destructuring-assignment */
   handles = [...Array(this.props.handlesCount)].map((_, i) => {
-    const handleMouseDown = this.createSliderEventHandler(i, 'mousemove', 'mouseup');
-    const handleTouchStart = this.createSliderEventHandler(i, 'touchmove', 'touchend');
+    const handleMouseDown = this.createSliderEventHandler(
+      i,
+      'mousemove',
+      'mouseup'
+    );
+    const handleTouchStart = this.createSliderEventHandler(
+      i,
+      'touchmove',
+      'touchend'
+    );
 
     return {
       handleMouseDown,
