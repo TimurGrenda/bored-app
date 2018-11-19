@@ -94,7 +94,9 @@ class Main extends Component {
               {participants}
             </Text>
           </Paragraph>
-          <Select options={activityTypes}/>
+          <div style={{ width: '300px' }}>
+            <Select options={activityTypes} />
+          </div>
         </PageWrapper>
       </React.Fragment>
     );

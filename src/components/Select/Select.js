@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import OutsideClickHandler from 'react-outside-click-handler';
-import Option from './styled-components/Option';
+import OptionsListWrap from './styled-components/OptionsListWrap';
 import OptionsList from './styled-components/OptionsList';
+import Option from './styled-components/Option';
 import Header from './styled-components/Header';
 import HeaderTitle from './styled-components/HeaderTitle';
+import HeaderButton from './styled-components/HeaderButton';
 
 class Select extends Component {
   state = {
@@ -42,8 +44,9 @@ class Select extends Component {
                   .label
               : 'Choose option'}
           </HeaderTitle>
+          <HeaderButton />
         </Header>
-        <div>
+        <OptionsListWrap>
           {isOpen && (
             <OptionsList>
               {options.map((option) => (
@@ -56,7 +59,7 @@ class Select extends Component {
               ))}
             </OptionsList>
           )}
-        </div>
+        </OptionsListWrap>
       </OutsideClickHandler>
     );
   }
