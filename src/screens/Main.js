@@ -82,7 +82,9 @@ class Main extends Component {
             onChange={this.handleRangeChange}
           />
           {rangeHandles.map((cur, i) => (
-            <Paragraph>
+            <Paragraph
+              key={i} // eslint-disable-line react/no-array-index-key
+            >
               <Text bold>{i}:</Text>
               <Text>{cur.toFixed(2)}</Text>
             </Paragraph>
