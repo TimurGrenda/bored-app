@@ -7,6 +7,46 @@ import Range from '../components/Range';
 import Paragraph from '../styled-components/Paragraph';
 import Text from '../styled-components/Text';
 import DigitPicker from '../components/DigitPicker';
+import Select from '../components/Select';
+
+const activityTypes = [
+  {
+    value: 'education',
+    label: 'Education',
+  },
+  {
+    value: 'recreational',
+    label: 'Recreational',
+  },
+  {
+    value: 'social',
+    label: 'Social',
+  },
+  {
+    value: 'diy',
+    label: 'DIY',
+  },
+  {
+    value: 'charity',
+    label: 'Charity',
+  },
+  {
+    value: 'cooking',
+    label: 'Cooking',
+  },
+  {
+    value: 'relaxation',
+    label: 'Relaxation',
+  },
+  {
+    value: 'music',
+    label: 'Music',
+  },
+  {
+    value: 'busywork',
+    label: 'Busywork',
+  },
+];
 
 class Main extends Component {
   state = {
@@ -54,6 +94,9 @@ class Main extends Component {
               {participants}
             </Text>
           </Paragraph>
+          <div style={{ width: '300px' }}>
+            <Select options={activityTypes} />
+          </div>
         </PageWrapper>
       </React.Fragment>
     );
