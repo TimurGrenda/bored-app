@@ -17,6 +17,7 @@ const Cell = styled.div`
     selected ? 'transparent' : theme.primaryColor};
   border-width: 1px;
   border-style: solid;
+  border-radius: 4px;
 `;
 
 export default Cell;

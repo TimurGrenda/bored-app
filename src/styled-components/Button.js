@@ -12,6 +12,7 @@ const Button = styled.button`
   outline: none;
   min-width: 100px;
   max-width: 300px;
+  border-radius: 4px;
 `;
 
 Button.propTypes = {
