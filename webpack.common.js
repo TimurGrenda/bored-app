@@ -19,15 +19,7 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-            presets: ['babel-preset-env', 'babel-preset-react'],
-            plugins: [
-              'babel-plugin-transform-class-properties',
-              'babel-plugin-transform-object-rest-spread',
-              'babel-plugin-styled-components',
-            ],
-          },
+          options: { babelrc: true },
         },
       },
       {
