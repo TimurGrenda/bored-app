@@ -89,7 +89,11 @@ class Main extends Component {
               <Text>{cur.toFixed(2)}</Text>
             </Paragraph>
           ))}
-          <DigitPicker range={[1, 8]} onChange={this.handleDigitPickerChange} />
+          <DigitPicker
+            from={1}
+            to={8}
+            onChange={this.handleDigitPickerChange}
+          />
           <Paragraph>
             <Text>
               participants:

@@ -26,10 +26,10 @@ class DigitPicker extends Component {
   };
 
   render() {
-    const { range } = this.props;
+    const { from, to } = this.props;
     const { selected } = this.state;
 
-    const cells = createArrayFromRange(...range).map((i) => (
+    const cells = createArrayFromRange(from, to).map((i) => (
       <Cell
         key={i}
         selected={selected === i}
@@ -44,7 +44,8 @@ class DigitPicker extends Component {
 }
 
 DigitPicker.propTypes = {
-  range: PropTypes.arrayOf(PropTypes.number).isRequired,
+  from: PropTypes.number.isRequired,
+  to: PropTypes.number.isRequired,
   onChange: PropTypes.func,
 };
 

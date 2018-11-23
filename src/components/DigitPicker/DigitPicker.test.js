@@ -11,7 +11,7 @@ describe('DigitPicker', () => {
     let wrappers;
 
     beforeEach(() => {
-      root = shallow(<DigitPicker range={[4, 7]} />);
+      root = shallow(<DigitPicker from={4} to={7} />);
       cells = root.find(Cell);
       wrappers = root.find(Wrapper);
     });
@@ -46,7 +46,7 @@ describe('DigitPicker', () => {
 
     beforeEach(() => {
       handleChange = jest.fn();
-      root = shallow(<DigitPicker range={[4, 7]} onChange={handleChange} />);
+      root = shallow(<DigitPicker from={4} to={7} onChange={handleChange} />);
       cells = root.find(Cell);
       getCell = (n) => root.find(Cell).at(n);
       getCellPropSelected = (n) => getCell(n).prop('selected');
