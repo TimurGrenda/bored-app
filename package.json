@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack-dev-server --config webpack.dev.js",
     "lint": "eslint \"**/*.js\"",
