@@ -13,7 +13,9 @@ const sliderWidth = dimensions.slider.width;
 const handlerWidth = dimensions.handler.width;
 
 export const calculateHandlePosition = (sliderNode, e) => {
-  const pointPageX = e.targetTouches ? e.targetTouches.item(0).pageX : e.pageX;
+  const pointPageX = e.targetTouches
+    ? e.targetTouches.item(0).clientX
+    : e.clientX;
   const pointerPositionDiff =
     pointPageX - getCoords(sliderNode).left - handlerWidth / 2;
 
@@ -31,12 +33,12 @@ export const calculateHandlePosition = (sliderNode, e) => {
   return handlePosition;
 };
 
-export const calculatePercent = (
+export const calculatePercentFromPositionPx = (
   sliderWidthArg = sliderWidth,
   handlerPosition
 ) => ((handlerPosition + handlerWidth / 2) / sliderWidthArg) * 100;
 
-export const calculatePosition = (
+export const calculatePositionPxFromPercent = (
   sliderWidthArg = sliderWidth,
   handlerPercent
 ) => (handlerPercent / 100) * sliderWidthArg - handlerWidth / 2;

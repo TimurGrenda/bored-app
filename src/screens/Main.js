@@ -50,7 +50,7 @@ const activityTypes = [
 
 class Main extends Component {
   state = {
-    rangeHandles: [],
+    rangeHandles: [0, 20, 50, 80, 100],
     participants: null,
   };
 

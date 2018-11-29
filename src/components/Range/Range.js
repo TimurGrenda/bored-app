@@ -1,31 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash.throttle';
+// import throttle from 'lodash.throttle';
 import Handle from './styled-components/Handle';
 import Slider from './styled-components/Slider';
 import SliderWrap from './styled-components/SliderWrap';
 import {
   calculateHandlePosition,
-  calculatePercent,
-  calculatePosition,
+  calculatePercentFromPositionPx,
+  calculatePositionPxFromPercent,
 } from './utils';
 
 class Range extends Component {
   /* eslint-disable react/destructuring-assignment */
   state = {
     handlesPositions: this.props.initialValues.map((cur) =>
-      calculatePosition(undefined, cur)
+      calculatePositionPxFromPercent(undefined, cur)
     ),
     handlesPercent: this.props.initialValues,
   };
   /* eslint-enable react/destructuring-assignment */
-
-  componentDidMount() {
-    const { onChange } = this.props;
-    const { handlesPercent } = this.state;
-
-    onChange(handlesPercent);
-  }
 
   createSliderEventHandler = (idx, moveEvent, endEvent) => {
     const handleMoveEvent = (e) => this.updateHandlePosition(idx, e);
@@ -44,7 +37,7 @@ class Range extends Component {
     return handleStartEvent;
   };
 
-  updateHandlePosition = throttle((idx, e) => {
+  updateHandlePosition = (idx, e) => {
     const { handlesPositions, handlesPercent } = this.state;
     const { onChange } = this.props;
 
@@ -56,7 +49,10 @@ class Range extends Component {
       (cur, i) => (i === idx ? newHandlePosition : cur)
     );
 
-    const newHandlePercent = calculatePercent(undefined, newHandlePosition);
+    const newHandlePercent = calculatePercentFromPositionPx(
+      undefined,
+      newHandlePosition
+    );
     const newHandlesPercents = handlesPercent.map(
       (cur, i) => (i === idx ? newHandlePercent : cur)
     );
@@ -66,12 +62,12 @@ class Range extends Component {
       handlesPositions: newHandlesPositions,
       handlesPercent: newHandlesPercents,
     });
-  }, 50);
+  };
 
   sliderRef = React.createRef();
 
   /* eslint-disable react/destructuring-assignment */
-  handles = [...Array(this.props.handlesCount)].map((_, i) => {
+  handles = this.props.initialValues.map((_, i) => {
     const handleMouseDown = this.createSliderEventHandler(
       i,
       'mousemove',
@@ -86,6 +82,7 @@ class Range extends Component {
     return {
       handleMouseDown,
       handleTouchStart,
+      key: i,
     };
   });
   /* eslint-enable react/destructuring-assignment */
@@ -98,7 +95,7 @@ class Range extends Component {
         <Slider innerRef={this.sliderRef}>
           {this.handles.map((cur, i) => (
             <Handle
-              key={Math.random()}
+              key={cur.key}
               style={{ left: `${handlesPositions[i]}px` }}
               onMouseDown={cur.handleMouseDown}
               onTouchStart={cur.handleTouchStart}
@@ -112,13 +109,10 @@ class Range extends Component {
 
 Range.propTypes = {
   onChange: PropTypes.func,
-  handlesCount: PropTypes.number,
-  initialValues: PropTypes.arrayOf(PropTypes.number),
+  initialValues: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 Range.defaultProps = {
   onChange: () => {},
-  handlesCount: 1,
-  initialValues: [50],
 };
 export default Range;
