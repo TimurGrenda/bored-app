@@ -4,49 +4,72 @@ import Range from './Range';
 import SliderWrap from './styled-components/SliderWrap';
 import Slider from './styled-components/Slider';
 import Handle from './styled-components/Handle';
-import { calculatePositionPxFromPercent } from './utils';
+import calculatePositionPxFromPercent from './utils/calculatePositionPxFromPercent';
+
+jest.mock('./utils/getCoords', () => jest.fn(() => ({ top: 10, left: 10 })));
+jest.mock('./utils/getElementOffsetWidth', () =>
+  jest.fn((node) => {
+    if (node.dataset.testMarker === 'slider') {
+      return 280;
+    } else if (node.dataset.testMarker === 'handler') {
+      return 30;
+    }
+    return null;
+  })
+);
 
 describe('Range', () => {
   describe('visual', () => {
-    let root;
-    let handles;
-    let sliders;
-    let sliderWraps;
     const initialValues = [0, 20, 50, 100];
 
-    beforeEach(() => {
-      root = shallow(<Range initialValues={initialValues} />);
-      sliderWraps = root.find(SliderWrap);
-      sliders = sliderWraps.find(Slider);
-      handles = sliders.find(Handle);
-    });
-
     it('should render Handles inside Slider inside SliderWrap', () => {
-      expect(sliderWraps.exists()).toBe(true);
-      expect(sliders.exists()).toBe(true);
-      expect(handles.exists()).toBe(true);
+      const root = shallow(<Range initialValues={initialValues} />, {
+        disableLifecycleMethods: true,
+      });
+      const sliderWraps = root.find(SliderWrap);
+      const sliders = sliderWraps.find(Slider);
+      const handles = sliders.find(Handle);
+
+      expect(sliderWraps.exists()).toBeTruthy();
+      expect(sliders.exists()).toBeTruthy();
+      expect(handles.exists()).toBeTruthy();
     });
 
     it('should render correct number of Handles', () => {
-      expect(handles).toHaveLength(4);
-
-      root = shallow(<Range initialValues={[50]} />);
+      let root = shallow(<Range initialValues={[50]} />, {
+        disableLifecycleMethods: true,
+      });
       expect(root.find(Handle)).toHaveLength(1);
 
-      root = shallow(<Range initialValues={[50, 70]} />);
+      root = shallow(<Range initialValues={[50, 70]} />, {
+        disableLifecycleMethods: true,
+      });
       expect(root.find(Handle)).toHaveLength(2);
+
+      root = shallow(<Range initialValues={initialValues} />, {
+        disableLifecycleMethods: true,
+      });
+      expect(root.find(Handle)).toHaveLength(4);
     });
 
-    it('should render Handles in correct positions when provided with initial values', () => {
+    it('should set Handle style.left according to state.handlesPositions', () => {
+      const root = shallow(<Range initialValues={initialValues} />, {
+        disableLifecycleMethods: true,
+      });
+      const handlesPositions = initialValues.map((cur) =>
+        calculatePositionPxFromPercent(280, cur)
+      );
+
+      root.instance().setState({ handlesPositions });
+      root.update();
+
       initialValues.forEach((value, idx) => {
-        const expectedValue = `${calculatePositionPxFromPercent(
-          undefined,
-          value
-        )}px`;
-        expect(handles.at(idx).prop('style')).toHaveProperty(
-          'left',
-          expectedValue
-        );
+        expect(
+          root
+            .find(Handle)
+            .at(idx)
+            .prop('style')
+        ).toHaveProperty('left', `${handlesPositions[idx]}px`);
       });
     });
   });
@@ -56,10 +79,6 @@ describe('Range', () => {
     const initialValues = [0, 20, 50, 100];
 
     const getHandleByIndex = (idx) => root.find(Handle).at(idx);
-
-    beforeEach(() => {
-      root = mount(<Range initialValues={initialValues} />);
-    });
 
     const dragHandle = (handle, destinationClientX) => {
       handle.simulate('mousedown', { clientX: 0 });
@@ -76,6 +95,7 @@ describe('Range', () => {
     };
 
     it('should call mouseDown/touchStart handler', () => {
+      root = mount(<Range initialValues={initialValues} />);
       root.instance().handles = initialValues.map((_, i) => ({
         handleMouseDown: jest.fn(),
         handleTouchStart: jest.fn(),
@@ -96,6 +116,7 @@ describe('Range', () => {
     });
 
     it('should add and remove event listeners for touch/mouse events', () => {
+      root = mount(<Range initialValues={initialValues} />);
       const adder = jest.spyOn(document, 'addEventListener');
       const remover = jest.spyOn(document, 'removeEventListener');
 
@@ -116,7 +137,7 @@ describe('Range', () => {
       dragHandle(getHandleByIndex(0), 100);
       root.update();
 
-      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '85px');
+      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '75px');
     });
 
     it('should apply correct style to multiple Handles when dragged', () => {
@@ -124,15 +145,15 @@ describe('Range', () => {
 
       dragHandle(getHandleByIndex(0), 100);
       root.update();
-      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '85px');
+      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '75px');
 
       dragHandle(getHandleByIndex(1), 110);
       root.update();
-      expect(getHandleByIndex(1).prop('style')).toHaveProperty('left', '95px');
+      expect(getHandleByIndex(1).prop('style')).toHaveProperty('left', '85px');
 
       dragHandle(getHandleByIndex(2), 120);
       root.update();
-      expect(getHandleByIndex(2).prop('style')).toHaveProperty('left', '105px');
+      expect(getHandleByIndex(2).prop('style')).toHaveProperty('left', '95px');
     });
 
     it('should call onChange prop with new set of positions in percent', () => {
@@ -144,7 +165,7 @@ describe('Range', () => {
       expect(onChange).toHaveBeenCalledTimes(2);
     });
 
-    it('should call onChange prop with correct value', () => {
+    it('should call onChange prop with correct values', () => {
       const onChange = jest.fn();
       root = mount(<Range initialValues={[10, 50, 100]} onChange={onChange} />);
       dragHandle(getHandleByIndex(0), 100);
@@ -152,7 +173,7 @@ describe('Range', () => {
       expect(onChange).toHaveBeenCalledTimes(2);
       expect(onChange).toHaveBeenNthCalledWith(1, [0, 50, 100]);
       expect(onChange).toHaveBeenNthCalledWith(2, [
-        35.714285714285715,
+        32.142857142857146,
         50,
         100,
       ]);

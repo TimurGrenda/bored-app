@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import throttle from 'lodash.throttle';
 import Handle from './styled-components/Handle';
 import Slider from './styled-components/Slider';
 import SliderWrap from './styled-components/SliderWrap';
-import {
-  calculateHandlePosition,
-  calculatePercentFromPositionPx,
-  calculatePositionPxFromPercent,
-} from './utils';
+import getCoords from './utils/getCoords';
+import calculateHandlePosition from './utils/calculateHandlePosition';
+import calculatePercentFromPositionPx from './utils/calculatePercentFromPositionPx';
+import calculatePositionPxFromPercent from './utils/calculatePositionPxFromPercent';
+import getSliderWidth from './utils/getElementOffsetWidth';
 
 class Range extends Component {
   /* eslint-disable react/destructuring-assignment */
   state = {
-    handlesPositions: this.props.initialValues.map((cur) =>
-      calculatePositionPxFromPercent(undefined, cur)
-    ),
+    handlesPositions: [],
     handlesPercent: this.props.initialValues,
   };
+
+  componentDidMount() {
+    this.sliderCoords = getCoords(this.sliderRef.current);
+    this.sliderWidth = getSliderWidth(this.sliderRef.current);
+    this.handlerWidth = getSliderWidth(this.lastHandlerRef.current);
+
+    const handlesPositions = this.props.initialValues.map((cur) =>
+      calculatePositionPxFromPercent(this.sliderWidth, this.handlerWidth, cur)
+    );
+
+    this.setState({ handlesPositions });
+  }
+
   /* eslint-enable react/destructuring-assignment */
 
   createSliderEventHandler = (idx, moveEvent, endEvent) => {
@@ -42,7 +52,9 @@ class Range extends Component {
     const { onChange } = this.props;
 
     const newHandlePosition = calculateHandlePosition(
-      this.sliderRef.current,
+      this.sliderCoords,
+      this.sliderWidth,
+      this.handlerWidth,
       e
     );
     const newHandlesPositions = handlesPositions.map(
@@ -50,7 +62,8 @@ class Range extends Component {
     );
 
     const newHandlePercent = calculatePercentFromPositionPx(
-      undefined,
+      this.sliderWidth,
+      this.handlerWidth,
       newHandlePosition
     );
     const newHandlesPercents = handlesPercent.map(
@@ -65,6 +78,8 @@ class Range extends Component {
   };
 
   sliderRef = React.createRef();
+
+  lastHandlerRef = React.createRef();
 
   /* eslint-disable react/destructuring-assignment */
   handles = this.props.initialValues.map((_, i) => {
@@ -99,6 +114,7 @@ class Range extends Component {
               style={{ left: `${handlesPositions[i]}px` }}
               onMouseDown={cur.handleMouseDown}
               onTouchStart={cur.handleTouchStart}
+              innerRef={this.lastHandlerRef}
             />
           ))}
         </Slider>

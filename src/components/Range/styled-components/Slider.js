@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { dimensions } from '../constants';
 
-const Slider = styled.div`
+const Slider = styled.div.attrs({
+  'data-test-marker': 'slider',
+})`
   position: relative;
-  width: ${dimensions.slider.width}px;
-  height: ${dimensions.slider.height}px;
+  width: 280px;
+  height: 10px;
   background-color: indigo;
 `;
 export default Slider;

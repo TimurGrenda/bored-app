@@ -77,7 +77,6 @@ class Main extends Component {
             Get suggestions
           </Button>
           <Range
-            handlesCount={5}
             initialValues={[0, 20, 50, 80, 100]}
             onChange={this.handleRangeChange}
           />
