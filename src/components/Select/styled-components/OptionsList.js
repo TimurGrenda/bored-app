@@ -14,4 +14,4 @@ const OptionsList = styled.ul`
   user-select: none;
 `;
 
-export default OptionsList;
+export { OptionsList };

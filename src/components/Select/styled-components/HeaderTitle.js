@@ -5,4 +5,4 @@ const HeaderTitle = styled.div`
   padding: 4px 12px;
 `;
 
-export default HeaderTitle;
+export { HeaderTitle };

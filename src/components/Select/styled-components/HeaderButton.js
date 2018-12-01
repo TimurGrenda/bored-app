@@ -33,4 +33,4 @@ const HeaderButton = () => (
   </Button>
 );
 
-export default HeaderButton;
+export { HeaderButton };

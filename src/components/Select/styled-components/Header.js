@@ -9,4 +9,4 @@ const Header = styled.div`
   user-select: none;
 `;
 
-export default Header;
+export { Header };

@@ -10,4 +10,4 @@ const Option = styled.li`
   }
 `;
 
-export default Option;
+export { Option };

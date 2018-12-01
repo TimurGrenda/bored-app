@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import OutsideClickHandler from 'react-outside-click-handler';
-import OptionsListWrap from './styled-components/OptionsListWrap';
-import OptionsList from './styled-components/OptionsList';
-import Option from './styled-components/Option';
-import Header from './styled-components/Header';
-import HeaderTitle from './styled-components/HeaderTitle';
-import HeaderButton from './styled-components/HeaderButton';
+import Header from './components/Header';
+import OptionsList from './components/OptionsList';
 
 class Select extends Component {
   state = {
@@ -29,44 +25,46 @@ class Select extends Component {
     this.setState((prev) => ({ isOpen: !prev.isOpen }));
   };
 
-  render() {
-    const { isOpen, selectedOptionValue } = this.state;
+  getHeaderTitle = () => {
+    const { selectedOptionValue } = this.state;
     const { options } = this.props;
+
+    if (selectedOptionValue !== null) {
+      return options.find((option) => option.value === selectedOptionValue)
+        .label;
+    }
+    return 'Choose option';
+  };
+
+  render() {
+    const { isOpen } = this.state;
+    const { options } = this.props;
+    const headerTitle = this.getHeaderTitle();
+
     return (
       <OutsideClickHandler
         disabled={!isOpen}
         onOutsideClick={this.handleOutsideClick}
       >
-        <Header onClick={this.toggleOptionsList}>
-          <HeaderTitle>
-            {selectedOptionValue !== null
-              ? options.find((option) => option.value === selectedOptionValue)
-                  .label
-              : 'Choose option'}
-          </HeaderTitle>
-          <HeaderButton />
-        </Header>
-        <OptionsListWrap>
-          {isOpen && (
-            <OptionsList>
-              {options.map((option) => (
-                <Option
-                  key={option.value}
-                  onClick={() => this.handleOptionSelection(option.value)}
-                >
-                  {option.label}
-                </Option>
-              ))}
-            </OptionsList>
-          )}
-        </OptionsListWrap>
+        <Header onClick={this.toggleOptionsList} title={headerTitle} />
+        {isOpen && (
+          <OptionsList
+            options={options}
+            onOptionSelect={this.handleOptionSelection}
+          />
+        )}
       </OutsideClickHandler>
     );
   }
 }
 
 Select.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Select;

@@ -4,4 +4,4 @@ const OptionsListWrap = styled.div`
   position: relative;
 `;
 
-export default OptionsListWrap;
+export { OptionsListWrap };
