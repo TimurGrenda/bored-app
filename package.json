@@ -3,14 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js",
-    "lint": "eslint \"**/*.js\"",
-    "pretty": "prettier \"**/*.js\" --write"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@gitlab.com/timur.g/bored-app.git"
@@ -44,6 +36,7 @@
     "eslint-plugin-prettier": "^2.7.0",
     "eslint-plugin-react": "^7.11.1",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.2.0",
     "jest": "^23.6.0",
     "prettier": "1.14.2",
     "webpack": "^4.25.1",
@@ -61,7 +54,21 @@
     "styled-components": "^3.4.10",
     "styled-normalize": "^8.0.4"
   },
+  "scripts": {
+    "test": "jest",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "lint": "eslint \"**/*.js\"",
+    "pretty": "prettier \"**/*.js\" --write",
+    "precommit": "npm run pretty && npm run lint && npm run test"
+  },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>setupTests.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
   }
 }
