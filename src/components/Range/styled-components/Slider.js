@@ -8,4 +8,4 @@ const Slider = styled.div.attrs({
   height: 10px;
   background-color: indigo;
 `;
-export default Slider;
+export { Slider };

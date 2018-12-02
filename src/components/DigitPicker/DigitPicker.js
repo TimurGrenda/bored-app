@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Cell from './styled-components/Cell';
-import Wrapper from './styled-components/Wrapper';
+import * as SC from './styled-components';
 import { createArrayFromRange } from './utils';
 
 class DigitPicker extends Component {
@@ -30,16 +29,16 @@ class DigitPicker extends Component {
     const { selected } = this.state;
 
     const cells = createArrayFromRange(from, to).map((i) => (
-      <Cell
+      <SC.Cell
         key={i}
         selected={selected === i}
         onClick={() => this.handleCellClick(i)}
       >
         {i}
-      </Cell>
+      </SC.Cell>
     ));
 
-    return <Wrapper>{cells}</Wrapper>;
+    return <SC.Wrapper>{cells}</SC.Wrapper>;
   }
 }
 

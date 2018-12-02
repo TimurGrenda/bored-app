@@ -1,9 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Range from './Range';
-import SliderWrap from './styled-components/SliderWrap';
-import Slider from './styled-components/Slider';
-import Handle from './styled-components/Handle';
+import * as SC from './styled-components';
 import calculatePositionPxFromPercent from './utils/calculatePositionPxFromPercent';
 
 jest.mock('./utils/getCoords', () => jest.fn(() => ({ top: 10, left: 10 })));
@@ -22,37 +20,37 @@ describe('Range', () => {
   describe('visual', () => {
     const initialValues = [0, 20, 50, 100];
 
-    it('should render Handles inside Slider inside SliderWrap', () => {
+    it('should render SC.Handles inside SC.Slider inside SC.SliderWrap', () => {
       const root = shallow(<Range initialValues={initialValues} />, {
         disableLifecycleMethods: true,
       });
-      const sliderWraps = root.find(SliderWrap);
-      const sliders = sliderWraps.find(Slider);
-      const handles = sliders.find(Handle);
+      const sliderWraps = root.find(SC.SliderWrap);
+      const sliders = sliderWraps.find(SC.Slider);
+      const handles = sliders.find(SC.Handle);
 
       expect(sliderWraps.exists()).toBeTruthy();
       expect(sliders.exists()).toBeTruthy();
       expect(handles.exists()).toBeTruthy();
     });
 
-    it('should render correct number of Handles', () => {
+    it('should render correct number of SC.Handles', () => {
       let root = shallow(<Range initialValues={[50]} />, {
         disableLifecycleMethods: true,
       });
-      expect(root.find(Handle)).toHaveLength(1);
+      expect(root.find(SC.Handle)).toHaveLength(1);
 
       root = shallow(<Range initialValues={[50, 70]} />, {
         disableLifecycleMethods: true,
       });
-      expect(root.find(Handle)).toHaveLength(2);
+      expect(root.find(SC.Handle)).toHaveLength(2);
 
       root = shallow(<Range initialValues={initialValues} />, {
         disableLifecycleMethods: true,
       });
-      expect(root.find(Handle)).toHaveLength(4);
+      expect(root.find(SC.Handle)).toHaveLength(4);
     });
 
-    it('should set Handle style.left according to state.handlesPositions', () => {
+    it('should set SC.Handle style.left according to state.handlesPositions', () => {
       const root = shallow(<Range initialValues={initialValues} />, {
         disableLifecycleMethods: true,
       });
@@ -66,7 +64,7 @@ describe('Range', () => {
       initialValues.forEach((value, idx) => {
         expect(
           root
-            .find(Handle)
+            .find(SC.Handle)
             .at(idx)
             .prop('style')
         ).toHaveProperty('left', `${handlesPositions[idx]}px`);
@@ -78,7 +76,7 @@ describe('Range', () => {
     let root;
     const initialValues = [0, 20, 50, 100];
 
-    const getHandleByIndex = (idx) => root.find(Handle).at(idx);
+    const getHandleByIndex = (idx) => root.find(SC.Handle).at(idx);
 
     const dragHandle = (handle, destinationClientX) => {
       handle.simulate('mousedown', { clientX: 0 });
@@ -131,7 +129,7 @@ describe('Range', () => {
       expect(remover).toHaveBeenCalledTimes(4);
     });
 
-    it('should apply correct style to one Handle when dragged', () => {
+    it('should apply correct style to one SC.Handle when dragged', () => {
       root = mount(<Range initialValues={[50]} />);
 
       dragHandle(getHandleByIndex(0), 100);
@@ -140,7 +138,7 @@ describe('Range', () => {
       expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '75px');
     });
 
-    it('should apply correct style to multiple Handles when dragged', () => {
+    it('should apply correct style to multiple SC.Handles when dragged', () => {
       root = mount(<Range initialValues={[10, 50, 100]} />);
 
       dragHandle(getHandleByIndex(0), 100);

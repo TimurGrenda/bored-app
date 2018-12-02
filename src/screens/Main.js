@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Title from '../styled-components/Title';
-import PageWrapper from '../styled-components/PageWrapper';
-import Button from '../styled-components/Button';
 import Range from '../components/Range';
-import Paragraph from '../styled-components/Paragraph';
-import Text from '../styled-components/Text';
+import * as SC from '../styled-components';
 import DigitPicker from '../components/DigitPicker';
 import Select from '../components/Select';
 
@@ -71,38 +67,38 @@ class Main extends Component {
     const { goToActivityPage } = this.props;
     return (
       <React.Fragment>
-        <PageWrapper centered>
-          <Title>Bored?</Title>
-          <Button type={'button'} onClick={goToActivityPage}>
+        <SC.PageWrapper centered>
+          <SC.Title>Bored?</SC.Title>
+          <SC.Button type={'button'} onClick={goToActivityPage}>
             Get suggestions
-          </Button>
+          </SC.Button>
           <Range
             initialValues={[0, 20, 50, 80, 100]}
             onChange={this.handleRangeChange}
           />
           {rangeHandles.map((cur, i) => (
-            <Paragraph
+            <SC.Paragraph
               key={i} // eslint-disable-line react/no-array-index-key
             >
-              <Text bold>{i}:</Text>
-              <Text>{cur.toFixed(2)}</Text>
-            </Paragraph>
+              <SC.Text bold>{i}:</SC.Text>
+              <SC.Text>{cur.toFixed(2)}</SC.Text>
+            </SC.Paragraph>
           ))}
           <DigitPicker
             from={1}
             to={8}
             onChange={this.handleDigitPickerChange}
           />
-          <Paragraph>
-            <Text>
+          <SC.Paragraph>
+            <SC.Text>
               participants:
               {participants}
-            </Text>
-          </Paragraph>
+            </SC.Text>
+          </SC.Paragraph>
           <div style={{ width: '300px' }}>
             <Select options={activityTypes} />
           </div>
-        </PageWrapper>
+        </SC.PageWrapper>
       </React.Fragment>
     );
   }

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Handle from './styled-components/Handle';
-import Slider from './styled-components/Slider';
-import SliderWrap from './styled-components/SliderWrap';
+import * as SC from './styled-components';
 import getCoords from './utils/getCoords';
 import calculateHandlePosition from './utils/calculateHandlePosition';
 import calculatePercentFromPositionPx from './utils/calculatePercentFromPositionPx';
@@ -106,10 +104,10 @@ class Range extends Component {
     const { handlesPositions } = this.state;
 
     return (
-      <SliderWrap>
-        <Slider innerRef={this.sliderRef}>
+      <SC.SliderWrap>
+        <SC.Slider innerRef={this.sliderRef}>
           {this.handles.map((cur, i) => (
-            <Handle
+            <SC.Handle
               key={cur.key}
               style={{ left: `${handlesPositions[i]}px` }}
               onMouseDown={cur.handleMouseDown}
@@ -117,8 +115,8 @@ class Range extends Component {
               innerRef={this.lastHandlerRef}
             />
           ))}
-        </Slider>
-      </SliderWrap>
+        </SC.Slider>
+      </SC.SliderWrap>
     );
   }
 }

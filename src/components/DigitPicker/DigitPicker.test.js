@@ -1,8 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import DigitPicker from './DigitPicker';
-import Wrapper from './styled-components/Wrapper';
-import Cell from './styled-components/Cell';
+import * as SC from './styled-components';
 
 describe('DigitPicker', () => {
   describe('visual', () => {
@@ -12,16 +11,16 @@ describe('DigitPicker', () => {
 
     beforeEach(() => {
       root = shallow(<DigitPicker from={4} to={7} />);
-      cells = root.find(Cell);
-      wrappers = root.find(Wrapper);
+      cells = root.find(SC.Cell);
+      wrappers = root.find(SC.Wrapper);
     });
 
-    it('should render the correct number of Cells inside Wrapper', () => {
+    it('should render the correct number of SC.Cells inside SC.Wrapper', () => {
       expect(wrappers).toHaveLength(1);
       expect(cells).toHaveLength(4);
     });
 
-    it('should populate Cells with corresponding numbers', () => {
+    it('should populate SC.Cells with corresponding numbers', () => {
       const expectedCellsContent = ['4', '5', '6', '7'];
       cells.forEach((node, index) => {
         const text = node.children().text();
@@ -29,7 +28,7 @@ describe('DigitPicker', () => {
       });
     });
 
-    it('should render all Cells unselected', () => {
+    it('should render all SC.Cells unselected', () => {
       cells.forEach((node) => {
         const selected = node.prop('selected');
         expect(selected).toBe(false);
@@ -47,12 +46,12 @@ describe('DigitPicker', () => {
     beforeEach(() => {
       handleChange = jest.fn();
       root = shallow(<DigitPicker from={4} to={7} onChange={handleChange} />);
-      cells = root.find(Cell);
-      getCell = (n) => root.find(Cell).at(n);
+      cells = root.find(SC.Cell);
+      getCell = (n) => root.find(SC.Cell).at(n);
       getCellPropSelected = (n) => getCell(n).prop('selected');
     });
 
-    it('should toggle Cell selection when it is clicked', () => {
+    it('should toggle SC.Cell selection when it is clicked', () => {
       getCell(1).simulate('click');
       expect(getCellPropSelected(1)).toBe(true);
 
@@ -92,7 +91,7 @@ describe('DigitPicker', () => {
       expect(handleChange).toHaveBeenCalledTimes(1);
     });
 
-    it('should call onChange with null when Cell is unselected', () => {
+    it('should call onChange with null when SC.Cell is unselected', () => {
       getCell(1).simulate('click');
       expect(handleChange).toHaveBeenLastCalledWith(5);
       getCell(1).simulate('click');

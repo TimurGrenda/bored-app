@@ -5,4 +5,4 @@ const Wrapper = styled.div`
   flex-direction: row;
 `;
 
-export default Wrapper;
+export { Wrapper };

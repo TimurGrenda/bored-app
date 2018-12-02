@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import dataStates from '../constants/dataStates';
-import PageWrapper from '../styled-components/PageWrapper';
-import Paragraph from '../styled-components/Paragraph';
-import Text from '../styled-components/Text';
-import Spinner from '../styled-components/Spinner';
+import * as SC from '../styled-components';
 
 class Activity extends Component {
   state = {
@@ -33,45 +30,45 @@ class Activity extends Component {
     const { dataState, data } = this.state;
     if (dataState === dataStates.loaded) {
       return (
-        <PageWrapper>
-          <Paragraph>
-            <Text main>
+        <SC.PageWrapper>
+          <SC.Paragraph>
+            <SC.Text main>
               activity:
               {data.activity}
-            </Text>
-          </Paragraph>
-          <Paragraph>
-            <Text main>
+            </SC.Text>
+          </SC.Paragraph>
+          <SC.Paragraph>
+            <SC.Text main>
               participants:
               {data.participants}
-            </Text>
-          </Paragraph>
-          <Paragraph>
-            <Text main>
+            </SC.Text>
+          </SC.Paragraph>
+          <SC.Paragraph>
+            <SC.Text main>
               type:
               {data.type}
-            </Text>
-          </Paragraph>
-          <Paragraph>
-            <Text main>
+            </SC.Text>
+          </SC.Paragraph>
+          <SC.Paragraph>
+            <SC.Text main>
               price:
               {data.price}
-            </Text>
-          </Paragraph>
-          <Paragraph>
-            <Text main>
+            </SC.Text>
+          </SC.Paragraph>
+          <SC.Paragraph>
+            <SC.Text main>
               accessibility:
               {data.accessibility}
-            </Text>
-          </Paragraph>
-        </PageWrapper>
+            </SC.Text>
+          </SC.Paragraph>
+        </SC.PageWrapper>
       );
     }
 
     return (
-      <PageWrapper centered>
-        <Spinner size={'large'} />
-      </PageWrapper>
+      <SC.PageWrapper centered>
+        <SC.Spinner size={'large'} />
+      </SC.PageWrapper>
     );
   }
 }

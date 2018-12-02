@@ -17,4 +17,4 @@ PageWrapper.propTypes = {
   centered: PropTypes.bool,
 };
 
-export default PageWrapper;
+export { PageWrapper };

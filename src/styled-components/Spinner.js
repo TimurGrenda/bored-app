@@ -43,4 +43,4 @@ Spinner.defaultProps = {
   size: 'medium',
 };
 
-export default Spinner;
+export { Spinner };

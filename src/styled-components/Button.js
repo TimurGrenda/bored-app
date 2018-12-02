@@ -19,4 +19,4 @@ Button.propTypes = {
   primary: PropTypes.bool,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
-export default Button;
+export { Button };

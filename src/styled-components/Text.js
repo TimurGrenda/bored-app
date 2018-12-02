@@ -16,4 +16,4 @@ Text.defaultProps = {
   bold: false,
 };
 
-export default Text;
+export { Text };

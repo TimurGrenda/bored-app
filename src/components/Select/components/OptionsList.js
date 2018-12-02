@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as UI from '../styled-components';
+import * as SC from '../styled-components';
 
 const OptionsList = ({ options, onOptionSelect }) => (
-  <UI.OptionsListWrap>
-    <UI.OptionsList>
+  <SC.OptionsListWrap>
+    <SC.OptionsList>
       {options.map((option) => (
-        <UI.Option
+        <SC.Option
           key={option.value}
           onClick={() => onOptionSelect(option.value)}
         >
           {option.label}
-        </UI.Option>
+        </SC.Option>
       ))}
-    </UI.OptionsList>
-  </UI.OptionsListWrap>
+    </SC.OptionsList>
+  </SC.OptionsListWrap>
 );
 
 OptionsList.propTypes = {

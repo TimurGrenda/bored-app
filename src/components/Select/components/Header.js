@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as UI from '../styled-components';
+import * as SC from '../styled-components';
 
 const Header = ({ title, onClick }) => (
-  <UI.Header onClick={onClick}>
-    <UI.HeaderTitle>{title}</UI.HeaderTitle>
-    <UI.HeaderButton />
-  </UI.Header>
+  <SC.Header onClick={onClick}>
+    <SC.HeaderTitle>{title}</SC.HeaderTitle>
+    <SC.HeaderButton />
+  </SC.Header>
 );
 
 Header.propTypes = {

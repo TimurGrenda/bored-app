@@ -12,4 +12,4 @@ const Handle = styled.div.attrs({
   background-color: ${({ theme }) => theme.primaryColor};
 `;
 
-export default Handle;
+export { Handle };

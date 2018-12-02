@@ -4,4 +4,4 @@ const Paragraph = styled.p`
   margin-bottom: 0;
 `;
 
-export default Paragraph;
+export { Paragraph };

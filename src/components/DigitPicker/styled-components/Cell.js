@@ -20,4 +20,4 @@ const Cell = styled.div`
   border-radius: 4px;
 `;
 
-export default Cell;
+export { Cell };

@@ -5,4 +5,4 @@ const SliderWrap = styled.div`
   padding-bottom: 20px;
 `;
 
-export default SliderWrap;
+export { SliderWrap };
