@@ -1,20 +1,21 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { Motion } from 'react-motion';
 import Modal from './Modal';
 import * as SC from './styled-components';
 
 describe('Modal component', () => {
   const children = <div>test</div>;
 
-  it('should not render children when closed', () => {
+  it('should not render anything when closed', () => {
     const root = shallow(
       <Modal isOpen={false} onRequestClose={() => {}}>
         {children}
       </Modal>
     );
 
-    expect(root.containsMatchingElement(children)).toBeFalsy();
+    expect(root.children()).toHaveLength(0);
   });
 
   it('should render children in a portal when opened', () => {
@@ -24,10 +25,17 @@ describe('Modal component', () => {
       </Modal>
     );
 
+    const motionRender = shallow(
+      root.find(Motion).prop('children')({
+        opacity: 1,
+        y: 0,
+      })
+    );
+
     // fixMe: find a better solution to test that Modal renders Portal
     expect(root.type().toString()).toEqual('Symbol(react.portal)');
 
-    expect(root.containsMatchingElement(children)).toBeTruthy();
+    expect(motionRender.containsMatchingElement(children)).toBeTruthy();
   });
 
   it('should render close button when opened', () => {
@@ -37,7 +45,14 @@ describe('Modal component', () => {
       </Modal>
     );
 
-    const closeButton = root.find(SC.CloseButton);
+    const motionRender = shallow(
+      root.find(Motion).prop('children')({
+        opacity: 1,
+        y: 0,
+      })
+    );
+
+    const closeButton = motionRender.find(SC.CloseButton);
     expect(closeButton.exists()).toBeTruthy();
   });
 
@@ -50,7 +65,14 @@ describe('Modal component', () => {
       </Modal>
     );
 
-    const closeButton = root.find(SC.CloseButton);
+    const motionRender = shallow(
+      root.find(Motion).prop('children')({
+        opacity: 1,
+        y: 0,
+      })
+    );
+
+    const closeButton = motionRender.find(SC.CloseButton);
     closeButton.simulate('click');
     expect(onRequestClose).toHaveBeenCalledTimes(1);
   });
@@ -64,7 +86,14 @@ describe('Modal component', () => {
       </Modal>
     );
 
-    const outsideClickHandler = root.find(OutsideClickHandler);
+    const motionRender = shallow(
+      root.find(Motion).prop('children')({
+        opacity: 1,
+        y: 0,
+      })
+    );
+
+    const outsideClickHandler = motionRender.find(OutsideClickHandler);
     outsideClickHandler.prop('onOutsideClick')(); // simulate outside click
     expect(onRequestClose).toHaveBeenCalledTimes(1);
   });
