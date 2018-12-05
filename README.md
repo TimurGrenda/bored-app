@@ -1,3 +1,6 @@
+Uses api provided by <https://github.com/drewthoennes/Bored-API>
+
+
 To debug tests in chrome DevTools, go to 
 <chrome://inspect> and click 
 *Open dedicated DevTools for Node*
