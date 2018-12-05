@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import dataStates from '../constants/dataStates';
 import * as SC from '../styled-components';
 
@@ -28,9 +28,14 @@ class Activity extends Component {
 
   render() {
     const { dataState, data } = this.state;
+    const { goToMainScreen } = this.props;
+
     if (dataState === dataStates.loaded) {
       return (
-        <SC.PageWrapper>
+        <SC.PageWrapper centered>
+          <SC.Paragraph>
+            <SC.Button onClick={goToMainScreen}>main</SC.Button>
+          </SC.Paragraph>
           <SC.Paragraph>
             <SC.Text main>
               activity:
@@ -73,6 +78,8 @@ class Activity extends Component {
   }
 }
 
-// Activity.propTypes = {};
+Activity.propTypes = {
+  goToMainScreen: PropTypes.func.isRequired,
+};
 
 export default Activity;

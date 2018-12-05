@@ -6,13 +6,13 @@ import OptionsList from './components/OptionsList';
 
 class Select extends Component {
   state = {
-    selectedOptionValue: null,
     isOpen: false,
   };
 
   handleOptionSelection = (value) => {
+    const { onChange } = this.props;
+    onChange(value);
     this.setState({
-      selectedOptionValue: value,
       isOpen: false,
     });
   };
@@ -26,8 +26,7 @@ class Select extends Component {
   };
 
   getHeaderTitle = () => {
-    const { selectedOptionValue } = this.state;
-    const { options } = this.props;
+    const { options, selectedOptionValue } = this.props;
 
     if (selectedOptionValue !== null) {
       return options.find((option) => option.value === selectedOptionValue)
@@ -65,6 +64,12 @@ Select.propTypes = {
       label: PropTypes.string.isRequired,
     })
   ).isRequired,
+  selectedOptionValue: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
+
+Select.defaultProps = {
+  selectedOptionValue: null,
 };
 
 export default Select;

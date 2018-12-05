@@ -12,15 +12,26 @@ describe('Select component', () => {
     { value: '3', label: 'third' },
   ];
 
-  it('should have correct initial state: isOpen==false and selectedOptionValue==null', () => {
-    const root = shallow(<Select options={options} />);
+  it('should have correct initial state: isOpen==false', () => {
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     const state = root.state();
     expect(state.isOpen).toBeFalsy();
-    expect(state.selectedOptionValue).toBeNull();
   });
 
   it('should render correct component structure after initial render', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
 
     expect(root.type()).toEqual(OutsideClickHandler);
     const rootChildren = root.children();
@@ -31,18 +42,36 @@ describe('Select component', () => {
   });
 
   it('should pass disabled == true to OutsideClickHandler after initial render', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     expect(root.prop('disabled')).toBeTruthy();
   });
 
   it('should pass initial text to HeaderTitle', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     const header = root.find(Header);
     expect(header.prop('title')).toEqual('Choose option');
   });
 
   it('should toggle isOpen state when Header is clicked', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     const header = root.find(Header);
     expect(root.state().isOpen).toBeFalsy();
     header.simulate('click');
@@ -52,13 +81,25 @@ describe('Select component', () => {
   });
 
   it('should render OptionsList when state.isOpen==true', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     root.setState({ isOpen: true });
     expect(root.find(OptionsList).exists()).toBeTruthy();
   });
 
   it('should hide OptionsList when clicked outside of the component', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     root.setState({ isOpen: true });
     expect(root.find(OptionsList).exists()).toBeTruthy();
 
@@ -68,7 +109,13 @@ describe('Select component', () => {
   });
 
   it('should pass options to OptionsList', () => {
-    const root = shallow(<Select options={options} />);
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
     root.setState({ isOpen: true });
     expect(root.find(OptionsList).exists()).toBeTruthy();
 
@@ -76,35 +123,48 @@ describe('Select component', () => {
     expect(optionsList.prop('options')).toEqual(options);
   });
 
-  it('should set selectedOptionValue and hide OptionsList after option is selected', () => {
-    const root = shallow(<Select options={options} />);
+  it('should call onChange when option is selected', () => {
+    const handleChange = jest.fn();
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={handleChange}
+        selectedOptionValue={null}
+      />
+    );
+
+    root.instance().handleOptionSelection(options[1].value);
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange).toHaveBeenCalledWith(options[1].value);
+  });
+
+  it('should hide OptionsList when option is selected', () => {
+    const handleChange = jest.fn();
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={handleChange}
+        selectedOptionValue={null}
+      />
+    );
+
     root.setState({ isOpen: true });
-    expect(root.find(OptionsList).exists()).toBeTruthy();
+    root.instance().handleOptionSelection(options[1].value);
 
-    root.instance().handleOptionSelection('2');
-
-    expect(root.state('selectedOptionValue')).toEqual('2');
     expect(root.find(OptionsList).exists()).toBeFalsy();
   });
 
-  it('should provide correct title to Header after option selection', () => {
-    const root = shallow(<Select options={options} />);
-    root.instance().handleOptionSelection(options[1].value);
+  it('should provide correct title to Header when option is selected', () => {
+    const root = shallow(
+      <Select
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={options[1].value}
+      />
+    );
 
     const header = root.find(Header);
     const expected = options.find((i) => i.value === options[1].value).label;
     expect(header.prop('title')).toEqual(expected);
-  });
-
-  it('should change Header title when selected option is changed', () => {
-    const root = shallow(<Select options={options} />);
-    root.instance().handleOptionSelection(options[1].value);
-
-    const expected1 = options.find((i) => i.value === options[1].value).label;
-    expect(root.find(Header).prop('title')).toEqual(expected1);
-
-    root.instance().handleOptionSelection(options[0].value);
-    const expected2 = options.find((i) => i.value === options[0].value).label;
-    expect(root.find(Header).prop('title')).toEqual(expected2);
   });
 });
