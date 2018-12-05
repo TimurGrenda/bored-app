@@ -1,11 +1,27 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+const getBackgroundColor = ({ theme, secondary }) => {
+  if (secondary) {
+    return theme.secondaryColor;
+  }
+  return theme.primaryColor;
+};
+
+const getTextColor = ({ theme, secondary }) => {
+  if (secondary) {
+    return theme.primaryColor;
+  }
+  return theme.secondaryColor;
+};
+
+const getBorderColor = ({ theme }) => theme.primaryColor;
+
 const Button = styled.button`
   padding: 5px 10px;
-  color: ${({ theme }) => theme.secondaryColor};
-  background-color: ${({ theme }) => theme.primaryColor};
-  border: 2px solid ${({ theme }) => theme.primaryColor};
+  color: ${getTextColor};
+  background-color: ${getBackgroundColor};
+  border: 2px solid ${getBorderColor};
   font-size: 1.2em;
   cursor: pointer;
   text-align: center;
@@ -16,7 +32,7 @@ const Button = styled.button`
 `;
 
 Button.propTypes = {
-  primary: PropTypes.bool,
+  secondary: PropTypes.bool,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
 export { Button };
