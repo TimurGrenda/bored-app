@@ -4,13 +4,8 @@ import * as SC from './styled-components';
 import { createArrayFromRange } from './utils';
 
 class DigitPicker extends Component {
-  state = {
-    selected: null,
-  };
-
   handleCellClick = (i) => {
-    const { selected } = this.state;
-    const { onChange } = this.props;
+    const { onChange, selected } = this.props;
 
     let newSelectedState;
     if (i === selected) {
@@ -19,14 +14,11 @@ class DigitPicker extends Component {
       newSelectedState = i;
     }
 
-    this.setState({ selected: newSelectedState });
-
     onChange(newSelectedState);
   };
 
   render() {
-    const { from, to } = this.props;
-    const { selected } = this.state;
+    const { from, to, selected } = this.props;
 
     const cells = createArrayFromRange(from, to).map((i) => (
       <SC.Cell
@@ -45,11 +37,12 @@ class DigitPicker extends Component {
 DigitPicker.propTypes = {
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired,
-  onChange: PropTypes.func,
+  selected: PropTypes.number,
+  onChange: PropTypes.func.isRequired,
 };
 
 DigitPicker.defaultProps = {
-  onChange: () => {},
+  selected: null,
 };
 
 export default DigitPicker;
