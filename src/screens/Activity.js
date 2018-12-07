@@ -14,12 +14,13 @@ class Activity extends Component {
       dataState: dataStates.loading,
     });
 
+    const { queryString } = this.props;
     /*
     * TODO: add error handling
     * https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
     * https://gist.github.com/odewahn/5a5eeb23279eed6a80d7798fdb47fe91
     * */
-    fetch('https://www.boredapi.com/api/activity/')
+    fetch(`https://www.boredapi.com/api/activity${queryString}`)
       .then((res) => res.json())
       .then((res) =>
         this.setState({ data: res, dataState: dataStates.loaded })
@@ -80,6 +81,11 @@ class Activity extends Component {
 
 Activity.propTypes = {
   goToMainScreen: PropTypes.func.isRequired,
+  queryString: PropTypes.string,
+};
+
+Activity.defaultProps = {
+  queryString: '',
 };
 
 export default Activity;
