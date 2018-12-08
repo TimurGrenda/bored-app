@@ -1,41 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import dataStates from '../constants/dataStates';
-import * as SC from '../styled-components';
+import dataStates from '../../constants/dataStates';
+import * as SC from '../../styled-components';
+import { getActivityData } from './api';
 
 class Activity extends Component {
   state = {
     dataState: dataStates.notAsked,
     data: null,
+    error: {},
   };
 
   componentDidMount() {
+    this.getActivity();
+  }
+
+  getActivity = () => {
     this.setState({
       dataState: dataStates.loading,
     });
 
     const { queryString } = this.props;
-    /*
-    * TODO: add error handling
-    * https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-    * https://gist.github.com/odewahn/5a5eeb23279eed6a80d7798fdb47fe91
-    * */
-    fetch(`https://www.boredapi.com/api/activity${queryString}`)
-      .then((res) => res.json())
-      .then((res) =>
-        this.setState({ data: res, dataState: dataStates.loaded })
-      );
-  }
+
+    getActivityData(
+      `https://www.boredapi.com/api/activity${queryString}`,
+      (json) => this.setState({ data: json, dataState: dataStates.loaded }),
+      (error) => this.setState({ error, dataState: dataStates.failed })
+    );
+  };
 
   render() {
-    const { dataState, data } = this.state;
+    const { dataState, data, error } = this.state;
     const { goToMainScreen } = this.props;
 
     if (dataState === dataStates.loaded) {
       return (
         <SC.PageWrapper centered>
           <SC.Paragraph>
-            <SC.Button onClick={goToMainScreen}>main</SC.Button>
+            <SC.Button secondary onClick={goToMainScreen}>
+              Back to Main
+            </SC.Button>
           </SC.Paragraph>
           <SC.Paragraph>
             <SC.Text main>
@@ -67,15 +71,38 @@ class Activity extends Component {
               {data.accessibility}
             </SC.Text>
           </SC.Paragraph>
+
+          <SC.Paragraph>
+            <SC.Button onClick={this.getActivity}>repeat request</SC.Button>
+          </SC.Paragraph>
+        </SC.PageWrapper>
+      );
+    } else if (dataState === dataStates.loaded) {
+      return (
+        <SC.PageWrapper centered>
+          <SC.Spinner size={'large'} />
+        </SC.PageWrapper>
+      );
+    } else if (dataState === dataStates.failed) {
+      return (
+        <SC.PageWrapper centered>
+          <SC.Paragraph>
+            <SC.Button secondary onClick={goToMainScreen}>
+              Back to Main
+            </SC.Button>
+          </SC.Paragraph>
+
+          <SC.Paragraph>
+            <SC.Text>Error: {error.message}</SC.Text>
+          </SC.Paragraph>
+
+          <SC.Paragraph>
+            <SC.Button onClick={this.getActivity}>repeat request</SC.Button>
+          </SC.Paragraph>
         </SC.PageWrapper>
       );
     }
-
-    return (
-      <SC.PageWrapper centered>
-        <SC.Spinner size={'large'} />
-      </SC.PageWrapper>
-    );
+    return null;
   }
 }
 
