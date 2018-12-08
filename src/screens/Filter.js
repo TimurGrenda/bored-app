@@ -18,7 +18,9 @@ const Filter = ({
   handleActivityTypeChange,
 }) => (
   <SC.PageWrapper centered>
-    <SC.Button onClick={goToMainScreen}>Back to Main</SC.Button>
+    <SC.Button secondary onClick={goToMainScreen}>
+      Back to Main
+    </SC.Button>
 
     <SC.Paragraph>
       <SC.Text>Type:</SC.Text>
