@@ -1,6 +1,15 @@
-export * from './Header';
-export * from './HeaderTitle';
-export * from './HeaderButton';
-export * from './OptionsListWrap';
-export * from './OptionsList';
-export * from './Option';
+import { Header } from './Header';
+import { HeaderTitle } from './HeaderTitle';
+import { HeaderButton } from './HeaderButton';
+import { OptionsListWrap } from './OptionsListWrap';
+import { OptionsList } from './OptionsList';
+import { Option } from './Option';
+
+export {
+  Option,
+  OptionsList,
+  OptionsListWrap,
+  HeaderButton,
+  HeaderTitle,
+  Header,
+};
