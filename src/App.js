@@ -55,6 +55,12 @@ class App extends Component {
     });
   };
 
+  clearActivityType = () => {
+    this.setState({
+      activityType: null,
+    });
+  };
+
   getMinValueForQuery = (array) => {
     const min = Math.min(...array);
     if (min !== 0) {
@@ -122,6 +128,7 @@ class App extends Component {
             handleAccessibilityRangeChange={this.handleAccessibilityRangeChange}
             handleParticipantsChange={this.handleParticipantsChange}
             handleActivityTypeChange={this.handleActivityTypeChange}
+            clearActivityType={this.clearActivityType}
           />
         );
       default:

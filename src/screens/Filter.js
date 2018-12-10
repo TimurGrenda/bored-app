@@ -16,6 +16,7 @@ const Filter = ({
   handleAccessibilityRangeChange,
   handleParticipantsChange,
   handleActivityTypeChange,
+  clearActivityType,
 }) => (
   <SC.PageWrapper centered>
     <SC.Button secondary onClick={goToMainScreen}>
@@ -30,6 +31,7 @@ const Filter = ({
         options={activityTypes}
         selectedOptionValue={activityType}
         onChange={handleActivityTypeChange}
+        onClearSelection={clearActivityType}
       />
     </div>
 
@@ -72,6 +74,7 @@ Filter.propTypes = {
   handleAccessibilityRangeChange: PropTypes.func.isRequired,
   handleParticipantsChange: PropTypes.func.isRequired,
   handleActivityTypeChange: PropTypes.func.isRequired,
+  clearActivityType: PropTypes.func.isRequired,
 };
 
 Filter.defaultProps = {
