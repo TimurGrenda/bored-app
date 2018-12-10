@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
 import * as SC from './styled-components';
 import getCoords from './utils/getCoords';
 import calculateHandlePosition from './utils/calculateHandlePosition';
@@ -15,16 +16,22 @@ class Range extends Component {
   };
 
   componentDidMount() {
-    this.sliderCoords = getCoords(this.sliderRef.current);
-    this.sliderWidth = getSliderWidth(this.sliderRef.current);
-    this.handlerWidth = getSliderWidth(this.lastHandlerRef.current);
+    this.measureElements();
 
     const handlesPositions = this.props.initialValues.map((cur) =>
       calculatePositionPxFromPercent(this.sliderWidth, this.handlerWidth, cur)
     );
 
     this.setState({ handlesPositions });
+
+    window.addEventListener('resize', this.debouncedMeasureElements);
   }
+
+  measureElements = () => {
+    this.sliderCoords = getCoords(this.sliderRef.current);
+    this.sliderWidth = getSliderWidth(this.sliderRef.current);
+    this.handlerWidth = getSliderWidth(this.lastHandlerRef.current);
+  };
 
   /* eslint-enable react/destructuring-assignment */
 
@@ -74,6 +81,8 @@ class Range extends Component {
       handlesPercent: newHandlesPercents,
     });
   };
+
+  debouncedMeasureElements = debounce(this.measureElements, 250);
 
   sliderRef = React.createRef();
 
