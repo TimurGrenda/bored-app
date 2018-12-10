@@ -55,18 +55,18 @@ class App extends Component {
     });
   };
 
-  getMinValueForQs = (array) => {
+  getMinValueForQuery = (array) => {
     const min = Math.min(...array);
     if (min !== 0) {
-      return min.toFixed(2);
+      return (min / 100).toFixed(2);
     }
     return null;
   };
 
-  getMaxValueForQs = (array) => {
+  getMaxValueForQuery = (array) => {
     const max = Math.max(...array);
     if (max !== 100) {
-      return max.toFixed(2);
+      return (max / 100).toFixed(2);
     }
     return null;
   };
@@ -82,10 +82,10 @@ class App extends Component {
 
     const queryString = qs.stringify(
       {
-        minprice: this.getMinValueForQs(priceRange),
-        maxprice: this.getMaxValueForQs(priceRange),
-        minaccessibility: this.getMinValueForQs(accessibilityRange),
-        maxaccessibility: this.getMaxValueForQs(accessibilityRange),
+        minprice: this.getMinValueForQuery(priceRange),
+        maxprice: this.getMaxValueForQuery(priceRange),
+        minaccessibility: this.getMinValueForQuery(accessibilityRange),
+        maxaccessibility: this.getMaxValueForQuery(accessibilityRange),
         participants,
         type: activityType,
       },
