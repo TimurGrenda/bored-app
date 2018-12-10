@@ -35,6 +35,14 @@ class Select extends Component {
     return 'Choose option';
   };
 
+  handleClearButtonClick = (e) => {
+    e.stopPropagation();
+
+    const { onClearSelection } = this.props;
+
+    onClearSelection();
+  };
+
   render() {
     const { isOpen } = this.state;
     const { options } = this.props;
@@ -45,7 +53,11 @@ class Select extends Component {
         disabled={!isOpen}
         onOutsideClick={this.handleOutsideClick}
       >
-        <Header onClick={this.toggleOptionsList} title={headerTitle} />
+        <Header
+          onClick={this.toggleOptionsList}
+          title={headerTitle}
+          onClearButtonClick={this.handleClearButtonClick}
+        />
         {isOpen && (
           <OptionsList
             options={options}
@@ -66,6 +78,7 @@ Select.propTypes = {
   ).isRequired,
   selectedOptionValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onClearSelection: PropTypes.func.isRequired,
 };
 
 Select.defaultProps = {

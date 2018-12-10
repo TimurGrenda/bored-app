@@ -15,6 +15,7 @@ describe('Select component', () => {
   it('should have correct initial state: isOpen==false', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -27,6 +28,7 @@ describe('Select component', () => {
   it('should render correct component structure after initial render', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -44,6 +46,7 @@ describe('Select component', () => {
   it('should pass disabled == true to OutsideClickHandler after initial render', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -55,6 +58,7 @@ describe('Select component', () => {
   it('should pass initial text to HeaderTitle', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -67,6 +71,7 @@ describe('Select component', () => {
   it('should toggle isOpen state when Header is clicked', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -83,6 +88,7 @@ describe('Select component', () => {
   it('should render OptionsList when state.isOpen==true', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -95,6 +101,7 @@ describe('Select component', () => {
   it('should hide OptionsList when clicked outside of the component', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -111,6 +118,7 @@ describe('Select component', () => {
   it('should pass options to OptionsList', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={null}
@@ -127,6 +135,7 @@ describe('Select component', () => {
     const handleChange = jest.fn();
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={handleChange}
         selectedOptionValue={null}
@@ -142,6 +151,7 @@ describe('Select component', () => {
     const handleChange = jest.fn();
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={handleChange}
         selectedOptionValue={null}
@@ -157,6 +167,7 @@ describe('Select component', () => {
   it('should provide correct title to Header when option is selected', () => {
     const root = shallow(
       <Select
+        onClearSelection={() => {}}
         options={options}
         onChange={() => {}}
         selectedOptionValue={options[1].value}
@@ -166,5 +177,24 @@ describe('Select component', () => {
     const header = root.find(Header);
     const expected = options.find((i) => i.value === options[1].value).label;
     expect(header.prop('title')).toEqual(expected);
+  });
+
+  it('should call onClearSelection when ClearButton was clicked', () => {
+    const onClearSelection = jest.fn();
+    const root = shallow(
+      <Select
+        onClearSelection={onClearSelection}
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={options[1].value}
+      />
+    );
+
+    const header = root.find(Header);
+    header.prop('onClearButtonClick')({
+      stopPropagation: () => {},
+    });
+
+    expect(onClearSelection).toHaveBeenCalledTimes(1);
   });
 });

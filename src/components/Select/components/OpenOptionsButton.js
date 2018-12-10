@@ -27,10 +27,10 @@ const Triangle = styled.div`
   border-top-color: blue;
 `;
 
-const HeaderButton = () => (
+const OpenOptionsButton = () => (
   <Button>
     <Triangle />
   </Button>
 );
 
-export { HeaderButton };
+export default OpenOptionsButton;
