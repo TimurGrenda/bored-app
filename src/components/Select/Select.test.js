@@ -197,4 +197,34 @@ describe('Select component', () => {
 
     expect(onClearSelection).toHaveBeenCalledTimes(1);
   });
+
+  it('should show ClearButton when option is selected', () => {
+    const root = shallow(
+      <Select
+        onClearSelection={() => {}}
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={options[1].value}
+      />
+    );
+
+    const header = root.find(Header);
+
+    expect(header.prop('showClearButton')).toBeTruthy();
+  });
+
+  it('should not show ClearButton when option is not selected', () => {
+    const root = shallow(
+      <Select
+        onClearSelection={() => {}}
+        options={options}
+        onChange={() => {}}
+        selectedOptionValue={null}
+      />
+    );
+
+    const header = root.find(Header);
+
+    expect(header.prop('showClearButton')).toBeFalsy();
+  });
 });

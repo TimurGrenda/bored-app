@@ -45,7 +45,7 @@ class Select extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { options } = this.props;
+    const { options, selectedOptionValue } = this.props;
     const headerTitle = this.getHeaderTitle();
 
     return (
@@ -57,6 +57,7 @@ class Select extends Component {
           onClick={this.toggleOptionsList}
           title={headerTitle}
           onClearButtonClick={this.handleClearButtonClick}
+          showClearButton={selectedOptionValue !== null}
         />
         {isOpen && (
           <OptionsList
