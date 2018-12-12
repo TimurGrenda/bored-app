@@ -18,14 +18,27 @@ class Range extends Component {
   componentDidMount() {
     this.measureElements();
 
+    this.reinitializeStateFromProps();
+
+    window.addEventListener('resize', this.debouncedMeasureElements);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.reinitializeStateFromProps();
+    }
+  }
+
+  reinitializeStateFromProps = () => {
     const handlesPositions = this.props.initialValues.map((cur) =>
       calculatePositionPxFromPercent(this.sliderWidth, this.handlerWidth, cur)
     );
 
-    this.setState({ handlesPositions });
-
-    window.addEventListener('resize', this.debouncedMeasureElements);
-  }
+    this.setState({
+      handlesPositions,
+      handlesPercent: this.props.initialValues,
+    });
+  };
 
   measureElements = () => {
     this.sliderCoords = getCoords(this.sliderRef.current);

@@ -4,13 +4,17 @@ import Main from './screens/Main';
 import Activity from './screens/Activity';
 import Filter from './screens/Filter';
 
+const initialFiltersStates = {
+  savedPriceRange: [0, 100],
+  savedAccessibilityRange: [0, 100],
+  savedParticipants: null,
+  savedActivityType: null,
+};
+
 class App extends Component {
   state = {
     currentScreen: 'filter',
-    priceRange: [0, 100],
-    accessibilityRange: [0, 100],
-    participants: null,
-    activityType: null,
+    ...initialFiltersStates,
   };
 
   handleScreenChange = (screen) => {
@@ -31,33 +35,23 @@ class App extends Component {
     this.handleScreenChange('filter');
   };
 
-  handlePriceRangeChange = (values) => {
+  saveFilters = ({
+    priceRange,
+    accessibilityRange,
+    participants,
+    activityType,
+  }) => {
     this.setState({
-      priceRange: values,
+      savedPriceRange: priceRange,
+      savedAccessibilityRange: accessibilityRange,
+      savedParticipants: participants,
+      savedActivityType: activityType,
     });
   };
 
-  handleAccessibilityRangeChange = (values) => {
+  clearFilters = () => {
     this.setState({
-      accessibilityRange: values,
-    });
-  };
-
-  handleParticipantsChange = (value) => {
-    this.setState({
-      participants: value,
-    });
-  };
-
-  handleActivityTypeChange = (value) => {
-    this.setState({
-      activityType: value,
-    });
-  };
-
-  clearActivityType = () => {
-    this.setState({
-      activityType: null,
+      ...initialFiltersStates,
     });
   };
 
@@ -80,20 +74,20 @@ class App extends Component {
   render() {
     const {
       currentScreen,
-      priceRange,
-      accessibilityRange,
-      participants,
-      activityType,
+      savedPriceRange,
+      savedAccessibilityRange,
+      savedParticipants,
+      savedActivityType,
     } = this.state;
 
     const queryString = qs.stringify(
       {
-        minprice: this.getMinValueForQuery(priceRange),
-        maxprice: this.getMaxValueForQuery(priceRange),
-        minaccessibility: this.getMinValueForQuery(accessibilityRange),
-        maxaccessibility: this.getMaxValueForQuery(accessibilityRange),
-        participants,
-        type: activityType,
+        minprice: this.getMinValueForQuery(savedPriceRange),
+        maxprice: this.getMaxValueForQuery(savedPriceRange),
+        minaccessibility: this.getMinValueForQuery(savedAccessibilityRange),
+        maxaccessibility: this.getMaxValueForQuery(savedAccessibilityRange),
+        participants: savedParticipants,
+        type: savedActivityType,
       },
       {
         skipNulls: true,
@@ -120,15 +114,12 @@ class App extends Component {
         return (
           <Filter
             goToMainScreen={this.goToMainScreen}
-            priceRange={priceRange}
-            accessibilityRange={accessibilityRange}
-            participants={participants}
-            activityType={activityType}
-            handlePriceRangeChange={this.handlePriceRangeChange}
-            handleAccessibilityRangeChange={this.handleAccessibilityRangeChange}
-            handleParticipantsChange={this.handleParticipantsChange}
-            handleActivityTypeChange={this.handleActivityTypeChange}
-            clearActivityType={this.clearActivityType}
+            savedPriceRange={savedPriceRange}
+            savedAccessibilityRange={savedAccessibilityRange}
+            savedParticipants={savedParticipants}
+            savedActivityType={savedActivityType}
+            saveFilters={this.saveFilters}
+            clearFilters={this.clearFilters}
           />
         );
       default:
