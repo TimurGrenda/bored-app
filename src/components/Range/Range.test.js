@@ -21,9 +21,12 @@ describe('Range', () => {
     const initialValues = [0, 20, 50, 100];
 
     it('should render SC.Handles inside SC.Slider inside SC.SliderWrap', () => {
-      const root = shallow(<Range initialValues={initialValues} />, {
-        disableLifecycleMethods: true,
-      });
+      const root = shallow(
+        <Range onChange={() => {}} values={initialValues} />,
+        {
+          disableLifecycleMethods: true,
+        }
+      );
       const sliderWraps = root.find(SC.SliderWrap);
       const sliders = sliderWraps.find(SC.Slider);
       const handles = sliders.find(SC.Handle);
@@ -34,26 +37,29 @@ describe('Range', () => {
     });
 
     it('should render correct number of SC.Handles', () => {
-      let root = shallow(<Range initialValues={[50]} />, {
+      let root = shallow(<Range onChange={() => {}} values={[50]} />, {
         disableLifecycleMethods: true,
       });
       expect(root.find(SC.Handle)).toHaveLength(1);
 
-      root = shallow(<Range initialValues={[50, 70]} />, {
+      root = shallow(<Range onChange={() => {}} values={[50, 70]} />, {
         disableLifecycleMethods: true,
       });
       expect(root.find(SC.Handle)).toHaveLength(2);
 
-      root = shallow(<Range initialValues={initialValues} />, {
+      root = shallow(<Range onChange={() => {}} values={initialValues} />, {
         disableLifecycleMethods: true,
       });
       expect(root.find(SC.Handle)).toHaveLength(4);
     });
 
     it('should set SC.Handle style.left according to state.handlesPositions', () => {
-      const root = shallow(<Range initialValues={initialValues} />, {
-        disableLifecycleMethods: true,
-      });
+      const root = shallow(
+        <Range onChange={() => {}} values={initialValues} />,
+        {
+          disableLifecycleMethods: true,
+        }
+      );
       const handlesPositions = initialValues.map((cur) =>
         calculatePositionPxFromPercent(280, cur)
       );
@@ -93,7 +99,7 @@ describe('Range', () => {
     };
 
     it('should call mouseDown/touchStart handler', () => {
-      root = mount(<Range initialValues={initialValues} />);
+      root = mount(<Range onChange={() => {}} values={initialValues} />);
       root.instance().handles = initialValues.map((_, i) => ({
         handleMouseDown: jest.fn(),
         handleTouchStart: jest.fn(),
@@ -114,7 +120,7 @@ describe('Range', () => {
     });
 
     it('should add and remove event listeners for touch/mouse events', () => {
-      root = mount(<Range initialValues={initialValues} />);
+      root = mount(<Range onChange={() => {}} values={initialValues} />);
       const adder = jest.spyOn(document, 'addEventListener');
       const remover = jest.spyOn(document, 'removeEventListener');
 
@@ -129,34 +135,9 @@ describe('Range', () => {
       expect(remover).toHaveBeenCalledTimes(4);
     });
 
-    it('should apply correct style to one SC.Handle when dragged', () => {
-      root = mount(<Range initialValues={[50]} />);
-
-      dragHandle(getHandleByIndex(0), 100);
-      root.update();
-
-      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '75px');
-    });
-
-    it('should apply correct style to multiple SC.Handles when dragged', () => {
-      root = mount(<Range initialValues={[10, 50, 100]} />);
-
-      dragHandle(getHandleByIndex(0), 100);
-      root.update();
-      expect(getHandleByIndex(0).prop('style')).toHaveProperty('left', '75px');
-
-      dragHandle(getHandleByIndex(1), 110);
-      root.update();
-      expect(getHandleByIndex(1).prop('style')).toHaveProperty('left', '85px');
-
-      dragHandle(getHandleByIndex(2), 120);
-      root.update();
-      expect(getHandleByIndex(2).prop('style')).toHaveProperty('left', '95px');
-    });
-
     it('should call onChange prop with new set of positions in percent', () => {
       const onChange = jest.fn();
-      root = mount(<Range initialValues={[10, 50, 100]} onChange={onChange} />);
+      root = mount(<Range values={[10, 50, 100]} onChange={onChange} />);
       expect(onChange).toHaveBeenCalledTimes(0);
 
       dragHandle(getHandleByIndex(0), 100);
@@ -165,7 +146,7 @@ describe('Range', () => {
 
     it('should call onChange prop with correct values', () => {
       const onChange = jest.fn();
-      root = mount(<Range initialValues={[10, 50, 100]} onChange={onChange} />);
+      root = mount(<Range values={[10, 50, 100]} onChange={onChange} />);
       dragHandle(getHandleByIndex(0), 100);
 
       expect(onChange).toHaveBeenCalledTimes(2);

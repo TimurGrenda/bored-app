@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 import * as SC from './styled-components';
@@ -8,45 +8,23 @@ import calculatePercentFromPositionPx from './utils/calculatePercentFromPosition
 import calculatePositionPxFromPercent from './utils/calculatePositionPxFromPercent';
 import getSliderWidth from './utils/getElementOffsetWidth';
 
-class Range extends Component {
-  /* eslint-disable react/destructuring-assignment */
-  state = {
-    handlesPositions: [],
-    handlesPercent: this.props.initialValues,
-  };
-
+class Range extends PureComponent {
   componentDidMount() {
     this.measureElements();
-
-    this.reinitializeStateFromProps();
+    this.forceUpdate();
 
     window.addEventListener('resize', this.debouncedMeasureElements);
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.reinitializeStateFromProps();
-    }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.debouncedMeasureElements);
   }
-
-  reinitializeStateFromProps = () => {
-    const handlesPositions = this.props.initialValues.map((cur) =>
-      calculatePositionPxFromPercent(this.sliderWidth, this.handlerWidth, cur)
-    );
-
-    this.setState({
-      handlesPositions,
-      handlesPercent: this.props.initialValues,
-    });
-  };
 
   measureElements = () => {
     this.sliderCoords = getCoords(this.sliderRef.current);
     this.sliderWidth = getSliderWidth(this.sliderRef.current);
     this.handlerWidth = getSliderWidth(this.lastHandlerRef.current);
   };
-
-  /* eslint-enable react/destructuring-assignment */
 
   createSliderEventHandler = (idx, moveEvent, endEvent) => {
     const handleMoveEvent = (e) => this.updateHandlePosition(idx, e);
@@ -66,7 +44,7 @@ class Range extends Component {
   };
 
   updateHandlePosition = (idx, e) => {
-    const { handlesPositions, handlesPercent } = this.state;
+    const { values: handlesPercent } = this.props;
     const { onChange } = this.props;
 
     const newHandlePosition = calculateHandlePosition(
@@ -74,9 +52,6 @@ class Range extends Component {
       this.sliderWidth,
       this.handlerWidth,
       e
-    );
-    const newHandlesPositions = handlesPositions.map(
-      (cur, i) => (i === idx ? newHandlePosition : cur)
     );
 
     const newHandlePercent = calculatePercentFromPositionPx(
@@ -89,11 +64,12 @@ class Range extends Component {
     );
 
     onChange(newHandlesPercents);
-    this.setState({
-      handlesPositions: newHandlesPositions,
-      handlesPercent: newHandlesPercents,
-    });
   };
+
+  calculateHandlesPositions = (handlesPercent) =>
+    handlesPercent.map((cur) =>
+      calculatePositionPxFromPercent(this.sliderWidth, this.handlerWidth, cur)
+    );
 
   debouncedMeasureElements = debounce(this.measureElements, 250);
 
@@ -101,8 +77,8 @@ class Range extends Component {
 
   lastHandlerRef = React.createRef();
 
-  /* eslint-disable react/destructuring-assignment */
-  handles = this.props.initialValues.map((_, i) => {
+  /* eslint-disable-next-line react/destructuring-assignment */
+  handles = this.props.values.map((_, i) => {
     const handleMouseDown = this.createSliderEventHandler(
       i,
       'mousemove',
@@ -120,10 +96,11 @@ class Range extends Component {
       key: i,
     };
   });
-  /* eslint-enable react/destructuring-assignment */
 
   render() {
-    const { handlesPositions } = this.state;
+    const { values } = this.props;
+
+    const handlesPositions = this.calculateHandlesPositions(values);
 
     return (
       <SC.SliderWrap>
@@ -144,11 +121,8 @@ class Range extends Component {
 }
 
 Range.propTypes = {
-  onChange: PropTypes.func,
-  initialValues: PropTypes.arrayOf(PropTypes.number).isRequired,
+  onChange: PropTypes.func.isRequired,
+  values: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
-Range.defaultProps = {
-  onChange: () => {},
-};
 export default Range;

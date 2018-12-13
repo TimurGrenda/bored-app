@@ -119,10 +119,7 @@ class Filter extends PureComponent {
         <SC.Paragraph>
           <SC.Text>price: {priceRange.map((el) => el.toFixed(2))}</SC.Text>
         </SC.Paragraph>
-        <Range
-          initialValues={priceRange}
-          onChange={this.handlePriceRangeChange}
-        />
+        <Range values={priceRange} onChange={this.handlePriceRangeChange} />
 
         <SC.Paragraph>
           <SC.Text>
@@ -130,7 +127,7 @@ class Filter extends PureComponent {
           </SC.Text>
         </SC.Paragraph>
         <Range
-          initialValues={accessibilityRange}
+          values={accessibilityRange}
           onChange={this.handleAccessibilityRangeChange}
         />
 
