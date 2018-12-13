@@ -49,9 +49,14 @@ class App extends Component {
     });
   };
 
+  /* Create new array so that check for prop equality fails in filter
+  * and it will reinitialize state from props
+  * (in case saved values were the initial values) */
   clearFilters = () => {
     this.setState({
       ...initialFiltersStates,
+      savedPriceRange: initialFiltersStates.savedPriceRange.slice(),
+      savedAccessibilityRange: initialFiltersStates.savedAccessibilityRange.slice(),
     });
   };
 
