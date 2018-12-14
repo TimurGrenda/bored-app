@@ -5,29 +5,24 @@ import Range from '../components/Range/Range';
 import DigitPicker from '../components/DigitPicker/DigitPicker';
 import Select from '../components/Select/Select';
 import { activityTypes } from './constants';
+import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
 
 class Filter extends PureComponent {
   constructor(props) {
     super(props);
     const {
-      savedPriceRange,
-      savedAccessibilityRange,
-      savedParticipants,
-      savedActivityType,
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType,
     } = this.props;
 
     this.state = {
-      priceRange: savedPriceRange,
-      accessibilityRange: savedAccessibilityRange,
-      participants: savedParticipants,
-      activityType: savedActivityType,
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType,
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.reinitializeStateFromProps();
-    }
   }
 
   handlePriceRangeChange = (values) => {
@@ -72,24 +67,29 @@ class Filter extends PureComponent {
     saveFilters({ priceRange, accessibilityRange, participants, activityType });
   };
 
+  clearFilters = () => {
+    const { initialFiltersStates } = this.props;
+    this.setState(initialFiltersStates);
+  };
+
   reinitializeStateFromProps = () => {
     const {
-      savedPriceRange,
-      savedAccessibilityRange,
-      savedParticipants,
-      savedActivityType,
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType,
     } = this.props;
 
     this.setState({
-      priceRange: savedPriceRange,
-      accessibilityRange: savedAccessibilityRange,
-      participants: savedParticipants,
-      activityType: savedActivityType,
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType,
     });
   };
 
   render() {
-    const { goToMainScreen, clearFilters } = this.props;
+    const { goToMainScreen } = this.props;
 
     const {
       priceRange,
@@ -146,7 +146,7 @@ class Filter extends PureComponent {
           <SC.Button onClick={this.saveFilters}>Save filters</SC.Button>
         </SC.Paragraph>
         <SC.Paragraph>
-          <SC.Button onClick={clearFilters}>Clear filters</SC.Button>
+          <SC.Button onClick={this.clearFilters}>Clear filters</SC.Button>
         </SC.Paragraph>
         <SC.Paragraph>
           <SC.Button secondary onClick={this.reinitializeStateFromProps}>
@@ -158,19 +158,18 @@ class Filter extends PureComponent {
   }
 }
 
-Filter.propTypes = {
-  goToMainScreen: PropTypes.func.isRequired,
-  savedPriceRange: PropTypes.arrayOf(PropTypes.number).isRequired,
-  savedAccessibilityRange: PropTypes.arrayOf(PropTypes.number).isRequired,
-  savedParticipants: PropTypes.number,
-  savedActivityType: PropTypes.string,
-  saveFilters: PropTypes.func.isRequired,
-  clearFilters: PropTypes.func.isRequired,
+const filtersPropTypes = {
+  priceRange: PropTypes.arrayOf(PropTypes.number).isRequired,
+  accessibilityRange: PropTypes.arrayOf(PropTypes.number).isRequired,
+  participants: nullOrNumber.isRequired,
+  activityType: nullOrString.isRequired,
 };
 
-Filter.defaultProps = {
-  savedParticipants: null,
-  savedActivityType: null,
+Filter.propTypes = {
+  goToMainScreen: PropTypes.func.isRequired,
+  ...filtersPropTypes,
+  saveFilters: PropTypes.func.isRequired,
+  initialFiltersStates: PropTypes.shape(filtersPropTypes).isRequired,
 };
 
 export default Filter;
