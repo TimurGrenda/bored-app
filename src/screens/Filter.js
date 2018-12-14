@@ -88,15 +88,38 @@ class Filter extends PureComponent {
     });
   };
 
+  /* eslint-disable react/destructuring-assignment */
+  areStateAndPropsEqual = () =>
+    this.state.priceRange[0] === this.props.priceRange[0] &&
+    this.state.priceRange[1] === this.props.priceRange[1] &&
+    this.state.accessibilityRange[0] === this.props.accessibilityRange[0] &&
+    this.state.accessibilityRange[1] === this.props.accessibilityRange[1] &&
+    this.state.participants === this.props.participants &&
+    this.state.activityType === this.props.activityType;
+
+  areStateAndInitialFiltersStatesEqual = () => {
+    const { initialFiltersStates: initial } = this.props;
+    return (
+      this.state.priceRange[0] === initial.priceRange[0] &&
+      this.state.priceRange[1] === initial.priceRange[1] &&
+      this.state.accessibilityRange[0] === initial.accessibilityRange[0] &&
+      this.state.accessibilityRange[1] === initial.accessibilityRange[1] &&
+      this.state.participants === initial.participants &&
+      this.state.activityType === initial.activityType
+    );
+  };
+  /* eslint-enable react/destructuring-assignment */
+
   render() {
     const { goToMainScreen } = this.props;
-
     const {
       priceRange,
       accessibilityRange,
       participants,
       activityType,
     } = this.state;
+    const stateAndPropsAreEqual = this.areStateAndPropsEqual();
+    const stateAndInitialFiltersStatesAreEqual = this.areStateAndInitialFiltersStatesEqual();
 
     return (
       <SC.PageWrapper centered>
@@ -143,13 +166,28 @@ class Filter extends PureComponent {
           </SC.Paragraph>
         </div>
         <SC.Paragraph>
-          <SC.Button onClick={this.saveFilters}>Save filters</SC.Button>
+          <SC.Button
+            disabled={stateAndPropsAreEqual}
+            onClick={this.saveFilters}
+          >
+            Save filters
+          </SC.Button>
         </SC.Paragraph>
         <SC.Paragraph>
-          <SC.Button onClick={this.clearFilters}>Clear filters</SC.Button>
+          <SC.Button
+            disabled={stateAndInitialFiltersStatesAreEqual}
+            secondary
+            onClick={this.clearFilters}
+          >
+            Clear filters
+          </SC.Button>
         </SC.Paragraph>
         <SC.Paragraph>
-          <SC.Button secondary onClick={this.reinitializeStateFromProps}>
+          <SC.Button
+            disabled={stateAndPropsAreEqual}
+            secondary
+            onClick={this.reinitializeStateFromProps}
+          >
             Reset filters
           </SC.Button>
         </SC.Paragraph>
