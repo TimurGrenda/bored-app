@@ -8,7 +8,7 @@ class Activity extends Component {
   state = {
     dataState: dataStates.notAsked,
     data: null,
-    error: {},
+    error: null,
   };
 
   componentDidMount() {
