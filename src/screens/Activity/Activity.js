@@ -77,7 +77,7 @@ class Activity extends Component {
           </SC.Paragraph>
         </SC.PageWrapper>
       );
-    } else if (dataState === dataStates.loaded) {
+    } else if (dataState === dataStates.loading) {
       return (
         <SC.PageWrapper centered>
           <SC.Spinner size={'large'} />
