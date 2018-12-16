@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import dataStates from '../../constants/dataStates';
 import * as SC from '../../styled-components';
@@ -7,8 +7,8 @@ import { getActivityData } from './api';
 class Activity extends Component {
   state = {
     dataState: dataStates.notAsked,
-    data: null,
-    error: null,
+    data: {},
+    error: {},
   };
 
   componentDidMount() {
@@ -33,76 +33,64 @@ class Activity extends Component {
     const { dataState, data, error } = this.state;
     const { goToMainScreen } = this.props;
 
-    if (dataState === dataStates.loaded) {
-      return (
-        <SC.PageWrapper centered>
-          <SC.Paragraph>
-            <SC.Button secondary onClick={goToMainScreen}>
-              Back to Main
-            </SC.Button>
-          </SC.Paragraph>
-          <SC.Paragraph>
-            <SC.Text main>
-              activity:
-              {data.activity}
-            </SC.Text>
-          </SC.Paragraph>
-          <SC.Paragraph>
-            <SC.Text main>
-              participants:
-              {data.participants}
-            </SC.Text>
-          </SC.Paragraph>
-          <SC.Paragraph>
-            <SC.Text main>
-              type:
-              {data.type}
-            </SC.Text>
-          </SC.Paragraph>
-          <SC.Paragraph>
-            <SC.Text main>
-              price:
-              {data.price}
-            </SC.Text>
-          </SC.Paragraph>
-          <SC.Paragraph>
-            <SC.Text main>
-              accessibility:
-              {data.accessibility}
-            </SC.Text>
-          </SC.Paragraph>
+    const loading = dataState === dataStates.loading;
 
-          <SC.Paragraph>
-            <SC.Button onClick={this.getActivity}>repeat request</SC.Button>
-          </SC.Paragraph>
-        </SC.PageWrapper>
-      );
-    } else if (dataState === dataStates.loading) {
-      return (
-        <SC.PageWrapper centered>
-          <SC.Spinner size={'large'} />
-        </SC.PageWrapper>
-      );
-    } else if (dataState === dataStates.failed) {
-      return (
-        <SC.PageWrapper centered>
-          <SC.Paragraph>
-            <SC.Button secondary onClick={goToMainScreen}>
-              Back to Main
-            </SC.Button>
-          </SC.Paragraph>
-
-          <SC.Paragraph>
-            <SC.Text>Error: {error.message}</SC.Text>
-          </SC.Paragraph>
-
-          <SC.Paragraph>
-            <SC.Button onClick={this.getActivity}>repeat request</SC.Button>
-          </SC.Paragraph>
-        </SC.PageWrapper>
-      );
-    }
-    return null;
+    const content = (_dataState) => {
+      switch (_dataState) {
+        case dataStates.loading:
+        case dataStates.loaded:
+          return (
+            <Fragment>
+              <SC.Paragraph centered>
+                <SC.Text main skeleton={loading}>
+                  activity: {data.activity}
+                </SC.Text>
+              </SC.Paragraph>
+              <SC.Paragraph centered>
+                <SC.Text main skeleton={loading}>
+                  participants: {data.participants}
+                </SC.Text>
+              </SC.Paragraph>
+              <SC.Paragraph centered>
+                <SC.Text main skeleton={loading}>
+                  type: {data.type}
+                </SC.Text>
+              </SC.Paragraph>
+              <SC.Paragraph centered>
+                <SC.Text main skeleton={loading}>
+                  price: {data.price}
+                </SC.Text>
+              </SC.Paragraph>
+              <SC.Paragraph centered>
+                <SC.Text main skeleton={loading}>
+                  accessibility: {data.accessibility}
+                </SC.Text>
+              </SC.Paragraph>
+            </Fragment>
+          );
+        case dataStates.failed:
+          return (
+            <SC.Paragraph>
+              <SC.Text>Error: {error.message}</SC.Text>
+            </SC.Paragraph>
+          );
+        default:
+          return null;
+      }
+    };
+    return (
+      <SC.PageWrapper centered>
+        <SC.Paragraph>
+          <SC.Button secondary onClick={goToMainScreen}>
+            Back to Main
+          </SC.Button>
+        </SC.Paragraph>
+        {content(dataState)}
+        <SC.Paragraph>
+          <SC.Button onClick={this.getActivity}>Repeat request</SC.Button>
+        </SC.Paragraph>
+      </SC.PageWrapper>
+    );
   }
 }
 
