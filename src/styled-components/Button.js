@@ -41,6 +41,11 @@ const Button = styled.button`
   min-width: 100px;
   max-width: 300px;
   border-radius: 4px;
+
+  &:hover {
+    transform: ${({ disabled }) => (disabled ? '' : 'scale(1.1, 1.1)')};
+    transition: transform 0.2s;
+  }
 `;
 
 Button.propTypes = {

@@ -18,6 +18,11 @@ const Cell = styled.div`
   border-width: 1px;
   border-style: solid;
   border-radius: 4px;
+  
+  &:hover {
+    transform: scale(1.1, 1.1)};
+    transition: transform 0.2s;
+  }
 `;
 
 export { Cell };

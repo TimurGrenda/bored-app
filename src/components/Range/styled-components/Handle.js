@@ -10,6 +10,11 @@ const Handle = styled.div.attrs({
   height: 30px;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.primaryColor};
+  
+  &:hover {
+    transform: scale(1.1, 1.1)};
+    transition: transform 0.2s;
+  }
 `;
 
 export { Handle };
