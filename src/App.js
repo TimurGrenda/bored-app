@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import qs from 'qs';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Main from './screens/Main';
 import Activity from './screens/Activity';
 import Filter from './screens/Filter';
@@ -13,26 +14,7 @@ const initialFiltersStates = {
 
 class App extends Component {
   state = {
-    currentScreen: 'filter',
     ...initialFiltersStates,
-  };
-
-  handleScreenChange = (screen) => {
-    this.setState({
-      currentScreen: screen,
-    });
-  };
-
-  goToActivityScreen = () => {
-    this.handleScreenChange('activity');
-  };
-
-  goToMainScreen = () => {
-    this.handleScreenChange('main');
-  };
-
-  goToFilterScreen = () => {
-    this.handleScreenChange('filter');
   };
 
   saveFilters = (newFiltersStates) => this.setState(newFiltersStates);
@@ -55,7 +37,6 @@ class App extends Component {
 
   render() {
     const {
-      currentScreen,
       priceRange,
       accessibilityRange,
       participants,
@@ -77,36 +58,33 @@ class App extends Component {
       }
     );
 
-    switch (currentScreen) {
-      case 'main':
-        return (
-          <Main
-            goToActivityScreen={this.goToActivityScreen}
-            goToFilterScreen={this.goToFilterScreen}
+    return (
+      <Router>
+        <Switch>
+          <Route exact path={'/'} component={Main} />
+          <Route
+            exact
+            path={'/activity'}
+            render={() => <Activity queryString={queryString} />}
           />
-        );
-      case 'activity':
-        return (
-          <Activity
-            goToMainScreen={this.goToMainScreen}
-            queryString={queryString}
+          <Route
+            exact
+            path={'/filter'}
+            render={() => (
+              <Filter
+                priceRange={priceRange}
+                accessibilityRange={accessibilityRange}
+                participants={participants}
+                activityType={activityType}
+                saveFilters={this.saveFilters}
+                initialFiltersStates={initialFiltersStates}
+              />
+            )}
           />
-        );
-      case 'filter':
-        return (
-          <Filter
-            goToMainScreen={this.goToMainScreen}
-            priceRange={priceRange}
-            accessibilityRange={accessibilityRange}
-            participants={participants}
-            activityType={activityType}
-            saveFilters={this.saveFilters}
-            initialFiltersStates={initialFiltersStates}
-          />
-        );
-      default:
-        throw new Error('Unexpected screen name');
-    }
+          <Route component={() => <h1>404</h1>} />
+        </Switch>
+      </Router>
+    );
   }
 }
 

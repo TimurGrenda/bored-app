@@ -1,26 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import * as SC from '../styled-components';
+import NavigationButton from '../components/NavigationButton';
 
-const Main = ({ goToActivityScreen, goToFilterScreen }) => (
+const Main = () => (
   <SC.PageWrapper centered>
     <SC.Title>Bored?</SC.Title>
     <SC.Paragraph>
-      <SC.Button type={'button'} onClick={goToActivityScreen}>
-        Get suggestions
-      </SC.Button>
+      <NavigationButton to={'/activity'}>Get suggestions</NavigationButton>
     </SC.Paragraph>
     <SC.Paragraph>
-      <SC.Button type={'button'} onClick={goToFilterScreen} secondary>
+      <NavigationButton secondary to={'/filter'}>
         Open filters
-      </SC.Button>
+      </NavigationButton>
     </SC.Paragraph>
   </SC.PageWrapper>
 );
-
-Main.propTypes = {
-  goToActivityScreen: PropTypes.func.isRequired,
-  goToFilterScreen: PropTypes.func.isRequired,
-};
 
 export default Main;

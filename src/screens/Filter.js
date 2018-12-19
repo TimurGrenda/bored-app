@@ -6,6 +6,7 @@ import DigitPicker from '../components/DigitPicker/DigitPicker';
 import Select from '../components/Select/Select';
 import { activityTypes } from './constants';
 import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
+import NavigationButton from '../components/NavigationButton';
 
 class Filter extends PureComponent {
   constructor(props) {
@@ -111,7 +112,6 @@ class Filter extends PureComponent {
   /* eslint-enable react/destructuring-assignment */
 
   render() {
-    const { goToMainScreen } = this.props;
     const {
       priceRange,
       accessibilityRange,
@@ -123,9 +123,9 @@ class Filter extends PureComponent {
 
     return (
       <SC.PageWrapper centered>
-        <SC.Button secondary onClick={goToMainScreen}>
+        <NavigationButton to={'/'} secondary>
           Back to Main
-        </SC.Button>
+        </NavigationButton>
 
         <SC.Paragraph>
           <SC.Text>Type:</SC.Text>
@@ -204,7 +204,6 @@ const filtersPropTypes = {
 };
 
 Filter.propTypes = {
-  goToMainScreen: PropTypes.func.isRequired,
   ...filtersPropTypes,
   saveFilters: PropTypes.func.isRequired,
   initialFiltersStates: PropTypes.shape(filtersPropTypes).isRequired,

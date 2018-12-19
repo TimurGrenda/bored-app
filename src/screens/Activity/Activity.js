@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import dataStates from '../../constants/dataStates';
 import * as SC from '../../styled-components';
 import { getActivityData } from './api';
+import NavigationButton from '../../components/NavigationButton';
 
 class Activity extends Component {
   state = {
@@ -31,7 +32,6 @@ class Activity extends Component {
 
   render() {
     const { dataState, data, error } = this.state;
-    const { goToMainScreen } = this.props;
 
     const loading = dataState === dataStates.loading;
 
@@ -81,9 +81,9 @@ class Activity extends Component {
     return (
       <SC.PageWrapper centered>
         <SC.Paragraph>
-          <SC.Button secondary onClick={goToMainScreen}>
+          <NavigationButton secondary to={'/'}>
             Back to Main
-          </SC.Button>
+          </NavigationButton>
         </SC.Paragraph>
         {content(dataState)}
         <SC.Paragraph>
@@ -95,7 +95,6 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  goToMainScreen: PropTypes.func.isRequired,
   queryString: PropTypes.string,
 };
 
