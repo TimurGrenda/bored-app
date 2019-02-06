@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import * as SC from '../styled-components';
 import Range from '../components/Range/Range';
 import DigitPicker from '../components/DigitPicker/DigitPicker';
@@ -57,7 +58,7 @@ class Filter extends PureComponent {
   };
 
   saveFilters = () => {
-    const { saveFilters } = this.props;
+    const { saveFilters, history } = this.props;
     const {
       priceRange,
       accessibilityRange,
@@ -66,6 +67,7 @@ class Filter extends PureComponent {
     } = this.state;
 
     saveFilters({ priceRange, accessibilityRange, participants, activityType });
+    history.goBack();
   };
 
   clearFilters = () => {
@@ -207,4 +209,4 @@ Filter.propTypes = {
   initialFiltersStates: PropTypes.shape(filtersPropTypes).isRequired,
 };
 
-export default Filter;
+export default withRouter(Filter);
