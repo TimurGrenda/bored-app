@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import * as SC from '../styled-components';
 import Range from '../components/Range/Range';
 import DigitPicker from '../components/DigitPicker/DigitPicker';
-import Select from '../components/Select/Select';
+import Select from '../components/Select';
 import { activityTypes } from '../constants/activityTypes';
 import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
-import NavigationButton from '../components/NavigationButton';
+import NavigationButtonBack from '../components/NavigationButtonBack';
 
 class Filter extends PureComponent {
   constructor(props) {
@@ -123,9 +123,7 @@ class Filter extends PureComponent {
 
     return (
       <SC.PageWrapper centered>
-        <NavigationButton to={'/'} secondary>
-          Back to Main
-        </NavigationButton>
+        <NavigationButtonBack secondary>Back</NavigationButtonBack>
 
         <SC.Paragraph>
           <SC.Text>Type:</SC.Text>

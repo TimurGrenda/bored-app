@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import dataStates from '../../constants/dataStates';
 import * as SC from '../../styled-components';
 import { getActivityData } from './api';
-import NavigationButton from '../../components/NavigationButton';
+import NavigationButtonBack from '../../components/NavigationButtonBack';
 import FiltersButton from '../../components/FiltersButton';
 
 class Activity extends Component {
@@ -83,9 +83,7 @@ class Activity extends Component {
     return (
       <SC.PageWrapper centered>
         <SC.Paragraph>
-          <NavigationButton secondary to={'/'}>
-            Back to Main
-          </NavigationButton>
+          <NavigationButtonBack secondary>Back</NavigationButtonBack>
         </SC.Paragraph>
         {content(dataState)}
         <SC.Paragraph>
