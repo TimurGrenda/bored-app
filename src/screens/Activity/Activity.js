@@ -4,6 +4,7 @@ import dataStates from '../../constants/dataStates';
 import * as SC from '../../styled-components';
 import { getActivityData } from './api';
 import NavigationButton from '../../components/NavigationButton';
+import FiltersButton from '../../components/FiltersButton';
 
 class Activity extends Component {
   state = {
@@ -32,6 +33,7 @@ class Activity extends Component {
 
   render() {
     const { dataState, data, error } = this.state;
+    const { filtersCount } = this.props;
 
     const loading = dataState === dataStates.loading;
 
@@ -89,6 +91,9 @@ class Activity extends Component {
         <SC.Paragraph>
           <SC.Button onClick={this.getActivity}>Repeat request</SC.Button>
         </SC.Paragraph>
+        <SC.Paragraph>
+          <FiltersButton filtersCount={filtersCount} />
+        </SC.Paragraph>
       </SC.PageWrapper>
     );
   }
@@ -96,6 +101,7 @@ class Activity extends Component {
 
 Activity.propTypes = {
   queryString: PropTypes.string,
+  filtersCount: PropTypes.number.isRequired,
 };
 
 Activity.defaultProps = {

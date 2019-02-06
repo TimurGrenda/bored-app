@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import qs from 'qs';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { constructQueryStringFromFilters } from './utils/constructQueryStringFromFilters';
+import { countFilters } from './utils/countFilters';
 import Main from './screens/Main';
 import Activity from './screens/Activity';
 import Filter from './screens/Filter';
@@ -19,22 +20,6 @@ class App extends Component {
 
   saveFilters = (newFiltersStates) => this.setState(newFiltersStates);
 
-  getMinValueForQuery = (array) => {
-    const min = Math.min(...array);
-    if (min !== 0) {
-      return (min / 100).toFixed(2);
-    }
-    return null;
-  };
-
-  getMaxValueForQuery = (array) => {
-    const max = Math.max(...array);
-    if (max !== 100) {
-      return (max / 100).toFixed(2);
-    }
-    return null;
-  };
-
   render() {
     const {
       priceRange,
@@ -43,29 +28,33 @@ class App extends Component {
       activityType,
     } = this.state;
 
-    const queryString = qs.stringify(
-      {
-        minprice: this.getMinValueForQuery(priceRange),
-        maxprice: this.getMaxValueForQuery(priceRange),
-        minaccessibility: this.getMinValueForQuery(accessibilityRange),
-        maxaccessibility: this.getMaxValueForQuery(accessibilityRange),
-        participants,
-        type: activityType,
-      },
-      {
-        skipNulls: true,
-        addQueryPrefix: true,
-      }
+    const queryString = constructQueryStringFromFilters(
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType
     );
 
+    const filtersCount = countFilters(
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType
+    );
     return (
       <Router>
         <Switch>
-          <Route exact path={'/'} component={Main} />
+          <Route
+            exact
+            path={'/'}
+            render={() => <Main filtersCount={filtersCount} />}
+          />
           <Route
             exact
             path={'/activity'}
-            render={() => <Activity queryString={queryString} />}
+            render={() => (
+              <Activity queryString={queryString} filtersCount={filtersCount} />
+            )}
           />
           <Route
             exact

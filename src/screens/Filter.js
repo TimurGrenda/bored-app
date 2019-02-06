@@ -4,7 +4,7 @@ import * as SC from '../styled-components';
 import Range from '../components/Range/Range';
 import DigitPicker from '../components/DigitPicker/DigitPicker';
 import Select from '../components/Select/Select';
-import { activityTypes } from './constants';
+import { activityTypes } from '../constants/activityTypes';
 import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
 import NavigationButton from '../components/NavigationButton';
 
