@@ -7,7 +7,7 @@ import DigitPicker from '../components/DigitPicker/DigitPicker';
 import Select from '../components/Select';
 import { activityTypes } from '../constants/activityTypes';
 import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
-import NavigationButtonBack from '../components/NavigationButtonBack';
+import NavigationButton from '../components/NavigationButton';
 
 class Filter extends PureComponent {
   constructor(props) {
@@ -67,7 +67,7 @@ class Filter extends PureComponent {
     } = this.state;
 
     saveFilters({ priceRange, accessibilityRange, participants, activityType });
-    history.goBack();
+    history.push('/activity');
   };
 
   clearFilters = () => {
@@ -125,7 +125,9 @@ class Filter extends PureComponent {
 
     return (
       <SC.PageWrapper centered>
-        <NavigationButtonBack secondary>Back</NavigationButtonBack>
+        <NavigationButton secondary to={'/activity'}>
+          Back to activity
+        </NavigationButton>
 
         <SC.Paragraph>
           <SC.Text>Type:</SC.Text>
@@ -188,7 +190,7 @@ class Filter extends PureComponent {
             secondary
             onClick={this.reinitializeStateFromProps}
           >
-            Reset filters
+            Reset to saved values
           </SC.Button>
         </SC.Paragraph>
       </SC.PageWrapper>

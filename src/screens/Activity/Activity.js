@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import dataStates from '../../constants/dataStates';
 import * as SC from '../../styled-components';
 import { getActivityData } from './api';
-import NavigationButtonBack from '../../components/NavigationButtonBack';
+import NavigationButton from '../../components/NavigationButton';
 import FiltersButton from '../../components/FiltersButton';
 
 class Activity extends Component {
@@ -14,18 +15,39 @@ class Activity extends Component {
   };
 
   componentDidMount() {
-    this.getActivity();
+    const { match } = this.props;
+
+    if (match.params.id) {
+      this.getActivityByKey(match.params.id);
+    } else {
+      this.getRandomActivity();
+    }
   }
 
-  getActivity = () => {
+  getRandomActivity = () => {
     this.setState({
       dataState: dataStates.loading,
     });
 
-    const { queryString } = this.props;
+    const { filtersQueryString, history } = this.props;
 
     getActivityData(
-      `https://www.boredapi.com/api/activity${queryString}`,
+      `https://www.boredapi.com/api/activity${filtersQueryString}`,
+      (json) => {
+        this.setState({ data: json, dataState: dataStates.loaded });
+        history.push(`/activity/${json.key}`);
+      },
+      (error) => this.setState({ error, dataState: dataStates.failed })
+    );
+  };
+
+  getActivityByKey = (key) => {
+    this.setState({
+      dataState: dataStates.loading,
+    });
+
+    getActivityData(
+      `https://www.boredapi.com/api/activity?key=${key}`,
       (json) => this.setState({ data: json, dataState: dataStates.loaded }),
       (error) => this.setState({ error, dataState: dataStates.failed })
     );
@@ -83,11 +105,15 @@ class Activity extends Component {
     return (
       <SC.PageWrapper centered>
         <SC.Paragraph>
-          <NavigationButtonBack secondary>Back</NavigationButtonBack>
+          <NavigationButton secondary to={'/'}>
+            Back to Main
+          </NavigationButton>
         </SC.Paragraph>
         {content(dataState)}
         <SC.Paragraph>
-          <SC.Button onClick={this.getActivity}>Repeat request</SC.Button>
+          <SC.Button onClick={this.getRandomActivity}>
+            Get random activity
+          </SC.Button>
         </SC.Paragraph>
         <SC.Paragraph>
           <FiltersButton filtersCount={filtersCount} />
@@ -98,12 +124,20 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  queryString: PropTypes.string,
+  filtersQueryString: PropTypes.string,
   filtersCount: PropTypes.number.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Activity.defaultProps = {
-  queryString: '',
+  filtersQueryString: '',
 };
 
-export default Activity;
+export default withRouter(Activity);

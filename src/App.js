@@ -28,7 +28,7 @@ class App extends Component {
       activityType,
     } = this.state;
 
-    const queryString = constructQueryStringFromFilters(
+    const filtersQueryString = constructQueryStringFromFilters(
       priceRange,
       accessibilityRange,
       participants,
@@ -51,9 +51,12 @@ class App extends Component {
           />
           <Route
             exact
-            path={'/activity'}
+            path={'/activity/:id?'}
             render={() => (
-              <Activity queryString={queryString} filtersCount={filtersCount} />
+              <Activity
+                filtersQueryString={filtersQueryString}
+                filtersCount={filtersCount}
+              />
             )}
           />
           <Route
