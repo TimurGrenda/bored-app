@@ -1,5 +1,3 @@
-import { Overlay } from './Overlay';
-import { ModalBody } from './ModalBody';
-import { CloseButton } from './CloseButton';
-
-export { CloseButton, ModalBody, Overlay };
+export { Overlay } from './Overlay';
+export { ModalBody } from './ModalBody';
+export { CloseButton } from './CloseButton';

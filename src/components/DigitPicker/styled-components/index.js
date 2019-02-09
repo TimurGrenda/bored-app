@@ -1,4 +1,2 @@
-import { Cell } from './Cell';
-import { Wrapper } from './Wrapper';
-
-export { Cell, Wrapper };
+export { Cell } from './Cell';
+export { Wrapper } from './Wrapper';

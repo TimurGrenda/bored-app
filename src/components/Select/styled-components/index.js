@@ -1,15 +1,6 @@
-import { Header } from './Header';
-import { HeaderTitle } from './HeaderTitle';
-import { OptionsListWrap } from './OptionsListWrap';
-import { OptionsList } from './OptionsList';
-import { Option } from './Option';
-import { ClearButton } from './ClearButton';
-
-export {
-  Option,
-  OptionsList,
-  OptionsListWrap,
-  HeaderTitle,
-  Header,
-  ClearButton,
-};
+export { Header } from './Header';
+export { HeaderTitle } from './HeaderTitle';
+export { OptionsListWrap } from './OptionsListWrap';
+export { OptionsList } from './OptionsList';
+export { Option } from './Option';
+export { ClearButton } from './ClearButton';

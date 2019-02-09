@@ -1,9 +1,7 @@
-import { Button } from './Button';
-import { Header } from './Header';
-import { PageWrapper } from './PageWrapper';
-import { Paragraph } from './Paragraph';
-import { Spinner } from './Spinner';
-import { Text } from './Text';
-import { Title } from './Title';
-
-export { Button, Header, PageWrapper, Paragraph, Spinner, Text, Title };
+export { Button } from './Button';
+export { Header } from './Header';
+export { PageWrapper } from './PageWrapper';
+export { Paragraph } from './Paragraph';
+export { Spinner } from './Spinner';
+export { Text } from './Text';
+export { Title } from './Title';

@@ -1,5 +1,3 @@
-import { Handle } from './Handle';
-import { Slider } from './Slider';
-import { SliderWrap } from './SliderWrap';
-
-export { SliderWrap, Slider, Handle };
+export { Handle } from './Handle';
+export { Slider } from './Slider';
+export { SliderWrap } from './SliderWrap';
