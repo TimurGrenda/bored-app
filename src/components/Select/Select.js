@@ -11,7 +11,9 @@ class Select extends Component {
 
   handleOptionSelection = (value) => {
     const { onChange } = this.props;
+
     onChange(value);
+
     this.setState({
       isOpen: false,
     });

@@ -6,7 +6,7 @@ import getCoords from './utils/getCoords';
 import calculateHandlePosition from './utils/calculateHandlePosition';
 import calculatePercentFromPositionPx from './utils/calculatePercentFromPositionPx';
 import calculatePositionPxFromPercent from './utils/calculatePositionPxFromPercent';
-import getSliderWidth from './utils/getElementOffsetWidth';
+import getElementOffsetWidth from './utils/getElementOffsetWidth';
 
 class Range extends PureComponent {
   componentDidMount() {
@@ -22,8 +22,8 @@ class Range extends PureComponent {
 
   measureElements = () => {
     this.sliderCoords = getCoords(this.sliderRef.current);
-    this.sliderWidth = getSliderWidth(this.sliderRef.current);
-    this.handlerWidth = getSliderWidth(this.lastHandlerRef.current);
+    this.sliderWidth = getElementOffsetWidth(this.sliderRef.current);
+    this.handlerWidth = getElementOffsetWidth(this.lastHandlerRef.current);
   };
 
   createSliderEventHandler = (idx, moveEvent, endEvent) => {
