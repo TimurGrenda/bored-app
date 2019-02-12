@@ -41,6 +41,7 @@ class App extends Component {
       participants,
       activityType
     );
+
     return (
       <Router>
         <Switch>

@@ -99,19 +99,26 @@ class Filter extends PureComponent {
     this.state.accessibilityRange[1] === this.props.accessibilityRange[1] &&
     this.state.participants === this.props.participants &&
     this.state.activityType === this.props.activityType;
+  /* eslint-enable react/destructuring-assignment */
 
   areStateAndInitialFiltersStatesEqual = () => {
     const { initialFiltersStates: initial } = this.props;
+    const {
+      priceRange,
+      accessibilityRange,
+      participants,
+      activityType,
+    } = this.state;
+
     return (
-      this.state.priceRange[0] === initial.priceRange[0] &&
-      this.state.priceRange[1] === initial.priceRange[1] &&
-      this.state.accessibilityRange[0] === initial.accessibilityRange[0] &&
-      this.state.accessibilityRange[1] === initial.accessibilityRange[1] &&
-      this.state.participants === initial.participants &&
-      this.state.activityType === initial.activityType
+      priceRange[0] === initial.priceRange[0] &&
+      priceRange[1] === initial.priceRange[1] &&
+      accessibilityRange[0] === initial.accessibilityRange[0] &&
+      accessibilityRange[1] === initial.accessibilityRange[1] &&
+      participants === initial.participants &&
+      activityType === initial.activityType
     );
   };
-  /* eslint-enable react/destructuring-assignment */
 
   render() {
     const {
