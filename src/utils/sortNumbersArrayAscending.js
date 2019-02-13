@@ -1,1 +1,2 @@
-export const sortNumbersArrayAscending = (arr) => arr.sort((a, b) => a - b);
+export const sortNumbersArrayAscending = (arr) =>
+  arr.slice().sort((a, b) => a - b);
