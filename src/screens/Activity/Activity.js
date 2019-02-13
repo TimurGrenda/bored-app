@@ -61,24 +61,24 @@ class Activity extends Component {
 
     return (
       <SC.PageWrapper centered>
-        <SC.Paragraph>
+        <SC.Block>
           <NavigationButton secondary to={'/'}>
             Back to Main
           </NavigationButton>
-        </SC.Paragraph>
+        </SC.Block>
         {(dataState === dataStates.loading ||
           dataState === dataStates.loaded) && (
           <Content dataState={dataState} data={data} />
         )}
         {dataState === dataStates.failed && <ContentFailed error={error} />}
-        <SC.Paragraph>
+        <SC.Block>
           <SC.Button onClick={this.getRandomActivity}>
             Get random activity
           </SC.Button>
-        </SC.Paragraph>
-        <SC.Paragraph>
+        </SC.Block>
+        <SC.Block>
           <FiltersButton filtersCount={filtersCount} />
-        </SC.Paragraph>
+        </SC.Block>
       </SC.PageWrapper>
     );
   }

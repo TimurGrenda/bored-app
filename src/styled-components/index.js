@@ -5,3 +5,4 @@ export { Paragraph } from './Paragraph';
 export { Spinner } from './Spinner';
 export { Text } from './Text';
 export { Title } from './Title';
+export { Block } from './Block';

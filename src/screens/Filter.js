@@ -8,6 +8,7 @@ import Select from '../components/Select';
 import { activityTypes } from '../constants/activityTypes';
 import { nullOrNumber, nullOrString } from '../utils/customPropTypeValidation';
 import NavigationButton from '../components/NavigationButton';
+import { sortNumbersArrayAscending } from '../utils/sortNumbersArrayAscending';
 
 class Filter extends PureComponent {
   constructor(props) {
@@ -127,6 +128,7 @@ class Filter extends PureComponent {
       participants,
       activityType,
     } = this.state;
+
     const stateAndPropsAreEqual = this.areStateAndPropsEqual();
     const stateAndInitialFiltersStatesAreEqual = this.areStateAndInitialFiltersStatesEqual();
 
@@ -136,53 +138,67 @@ class Filter extends PureComponent {
           Back to activity
         </NavigationButton>
 
-        <SC.Paragraph>
-          <SC.Text>Type:</SC.Text>
-        </SC.Paragraph>
-        <div style={{ width: 260, marginTop: 20 }}>
+        <SC.Block>
+          <SC.Text bold>Type:</SC.Text>
           <Select
             options={activityTypes}
             selectedOptionValue={activityType}
             onChange={this.handleActivityTypeChange}
             onClearSelection={this.clearActivityType}
+            style={{ width: 200, marginTop: 20, marginLeft: 10 }}
           />
-        </div>
+        </SC.Block>
 
-        <SC.Paragraph>
-          <SC.Text>price: {priceRange.map((el) => el.toFixed(2))}</SC.Text>
-        </SC.Paragraph>
-        <Range values={priceRange} onChange={this.handlePriceRangeChange} />
+        <SC.Block>
+          <SC.Paragraph centered>
+            <SC.Text bold>Price: </SC.Text>
+            <SC.Text>
+              {sortNumbersArrayAscending(priceRange)
+                .map((el) => el.toFixed(2))
+                .join(' - ')}
+            </SC.Text>
+          </SC.Paragraph>
+          <Range values={priceRange} onChange={this.handlePriceRangeChange} />
+        </SC.Block>
 
-        <SC.Paragraph>
-          <SC.Text>
-            accessibility: {accessibilityRange.map((el) => el.toFixed(2))}
-          </SC.Text>
-        </SC.Paragraph>
-        <Range
-          values={accessibilityRange}
-          onChange={this.handleAccessibilityRangeChange}
-        />
+        <SC.Block>
+          <SC.Paragraph centered noTopMargin>
+            <SC.Text bold>Accessibility: </SC.Text>
+            <SC.Text>
+              {sortNumbersArrayAscending(accessibilityRange)
+                .map((el) => el.toFixed(2))
+                .join(' - ')}
+            </SC.Text>
+          </SC.Paragraph>
+          <Range
+            values={accessibilityRange}
+            onChange={this.handleAccessibilityRangeChange}
+          />
+        </SC.Block>
 
-        <div style={{ marginTop: 20 }}>
+        <SC.Block>
+          <SC.Paragraph noTopMargin>
+            <SC.Text bold>Participants: </SC.Text>
+            <SC.Text>{participants || 'any'}</SC.Text>
+          </SC.Paragraph>
           <DigitPicker
             from={1}
             to={6}
             onChange={this.handleParticipantsChange}
             selected={participants}
+            style={{ marginTop: 10 }}
           />
-          <SC.Paragraph>
-            <SC.Text>participants: {participants}</SC.Text>
-          </SC.Paragraph>
-        </div>
-        <SC.Paragraph>
+        </SC.Block>
+
+        <SC.Block marginTop={'30px'}>
           <SC.Button
             disabled={stateAndPropsAreEqual}
             onClick={this.saveFilters}
           >
             Save filters
           </SC.Button>
-        </SC.Paragraph>
-        <SC.Paragraph>
+        </SC.Block>
+        <SC.Block>
           <SC.Button
             disabled={stateAndInitialFiltersStatesAreEqual}
             secondary
@@ -190,8 +206,8 @@ class Filter extends PureComponent {
           >
             Clear filters
           </SC.Button>
-        </SC.Paragraph>
-        <SC.Paragraph>
+        </SC.Block>
+        <SC.Block>
           <SC.Button
             disabled={stateAndPropsAreEqual}
             secondary
@@ -199,7 +215,7 @@ class Filter extends PureComponent {
           >
             Reset to saved values
           </SC.Button>
-        </SC.Paragraph>
+        </SC.Block>
       </SC.PageWrapper>
     );
   }

@@ -5,9 +5,9 @@ import NavigationButton from '../components/NavigationButton';
 const Main = () => (
   <SC.PageWrapper centered>
     <SC.Title>Bored?</SC.Title>
-    <SC.Paragraph>
+    <SC.Block>
       <NavigationButton to={'/activity'}>Get suggestions</NavigationButton>
-    </SC.Paragraph>
+    </SC.Block>
   </SC.PageWrapper>
 );
 
