@@ -34,7 +34,7 @@ class Select extends Component {
       return options.find((option) => option.value === selectedOptionValue)
         .label;
     }
-    return 'Choose option';
+    return 'Any';
   };
 
   handleClearButtonClick = (e) => {
@@ -47,27 +47,29 @@ class Select extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { options, selectedOptionValue } = this.props;
+    const { options, selectedOptionValue, style } = this.props;
     const headerTitle = this.getHeaderTitle();
 
     return (
-      <OutsideClickHandler
-        disabled={!isOpen}
-        onOutsideClick={this.handleOutsideClick}
-      >
-        <Header
-          onClick={this.toggleOptionsList}
-          title={headerTitle}
-          onClearButtonClick={this.handleClearButtonClick}
-          showClearButton={selectedOptionValue !== null}
-        />
-        {isOpen && (
-          <OptionsList
-            options={options}
-            onOptionSelect={this.handleOptionSelection}
+      <div style={{ display: 'inline-block', ...style }}>
+        <OutsideClickHandler
+          disabled={!isOpen}
+          onOutsideClick={this.handleOutsideClick}
+        >
+          <Header
+            onClick={this.toggleOptionsList}
+            title={headerTitle}
+            onClearButtonClick={this.handleClearButtonClick}
+            showClearButton={selectedOptionValue !== null}
           />
-        )}
-      </OutsideClickHandler>
+          {isOpen && (
+            <OptionsList
+              options={options}
+              onOptionSelect={this.handleOptionSelection}
+            />
+          )}
+        </OutsideClickHandler>
+      </div>
     );
   }
 }
@@ -82,10 +84,12 @@ Select.propTypes = {
   selectedOptionValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onClearSelection: PropTypes.func.isRequired,
+  style: PropTypes.shape(),
 };
 
 Select.defaultProps = {
   selectedOptionValue: null,
+  style: {},
 };
 
 export default Select;

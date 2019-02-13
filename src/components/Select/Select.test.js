@@ -35,12 +35,15 @@ describe('Select component', () => {
       />
     );
 
-    expect(root.type()).toEqual(OutsideClickHandler);
+    expect(root.type()).toEqual('div');
     const rootChildren = root.children();
     expect(rootChildren).toHaveLength(1);
 
     const firstRootChild = root.children().first();
-    expect(firstRootChild.type()).toEqual(Header);
+    expect(firstRootChild.type()).toEqual(OutsideClickHandler);
+
+    const nextRootChild = firstRootChild.children().first();
+    expect(nextRootChild.type()).toEqual(Header);
   });
 
   it('should pass disabled == true to OutsideClickHandler after initial render', () => {
@@ -52,7 +55,7 @@ describe('Select component', () => {
         selectedOptionValue={null}
       />
     );
-    expect(root.prop('disabled')).toBeTruthy();
+    expect(root.find(OutsideClickHandler).prop('disabled')).toBeTruthy();
   });
 
   it('should pass initial text to HeaderTitle', () => {
@@ -65,7 +68,7 @@ describe('Select component', () => {
       />
     );
     const header = root.find(Header);
-    expect(header.prop('title')).toEqual('Choose option');
+    expect(header.prop('title')).toEqual('Any');
   });
 
   it('should toggle isOpen state when Header is clicked', () => {

@@ -18,7 +18,7 @@ class DigitPicker extends Component {
   };
 
   render() {
-    const { from, to, selected } = this.props;
+    const { from, to, selected, ...rest } = this.props;
 
     const cells = createArrayFromRange(from, to).map((i) => (
       <SC.Cell
@@ -30,7 +30,7 @@ class DigitPicker extends Component {
       </SC.Cell>
     ));
 
-    return <SC.Wrapper>{cells}</SC.Wrapper>;
+    return <SC.Wrapper {...rest}>{cells}</SC.Wrapper>;
   }
 }
 
