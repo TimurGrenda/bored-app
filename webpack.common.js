@@ -2,7 +2,6 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-/* TODO: extract common chunks, chunk hashes for caching */
 module.exports = {
   mode: 'none',
   entry: {
